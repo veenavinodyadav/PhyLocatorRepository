@@ -1,0 +1,188 @@
+﻿
+<script src="/Scripts/jquery.validate.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+@model PhysicianLocator.Models.EmailTemplateViewModel
+
+@{
+    ViewBag.Title = "InsertEmail";
+    Layout = null;
+}
+
+<h2>Create Email Template</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+ 
+    <div class="form-horizontal">
+
+        <hr />
+
+        <span>
+            <strong><i class="fa-sticky-note"></i>SIGNUP SPECIFIC:</strong>
+            <br />
+            1. %UserName% will display user's username.<br />
+            2. %FirstName% will display the user's first name.<br />
+            3. %LastName% will display the user's last name.<br />
+            4. %EmailAddress% will display the user's email id.<br />
+            5. %Password%  will display the user's password.<br />
+            6. %url% will display the user's password.<br />
+            @*7. %login_url% will display user's login link.<br />
+                8. %signup_url% will display new signup link.<br />*@
+
+        </span>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.templateCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.templateCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.templateCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bcc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bcc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bcc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Cc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.templateContent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+            @Html.TextAreaFor(model => model.templateContent, new { htmlAttributes = new { @class = "form-control" } })
+
+
+             @*@(Html.Kendo().Editor()
+                           .Name("emaileditor")
+                           .HtmlAttributes(new { required = "required", validationmessage = "Enter text ", style = "height:440px" })
+                           .Resizable(resizable => resizable.Content(false).Toolbar(true))
+                           .Tools(tools => tools
+                           .Clear()
+                           .Bold().Italic().Underline().Strikethrough()
+                           .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull().CleanFormatting().FontName()
+                           .CreateLink().Unlink()
+                           .FontColor().BackColor())           
+              )*@
+                
+            </div>
+        </div>
+
+        <div class="">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="button" value="Cancel" id="clsbutton" name="clsbutton" class="btn btn-default" , onclick="Closepopup()" />
+
+
+
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+           //****************************************************************************************************************************
+
+            //place this code before the Scheduler init code, e.g. in header
+            (function ($, kendo) {
+                //Extending the Scheduler build in validator:
+                $.extend(true, kendo.ui.validator, {
+
+                    rules: {
+                        'emaileditor': function (input) {
+                            //alert("ddddddddddd");
+                            return true;
+                        }
+                    },
+                    'templateCode': {
+                        required: true,
+                        //depends: function (element) {
+                        //    return $("#category").val() == "none";
+                        //}
+                    },
+                    'From': {
+                        required: true,
+                        //depends: function (element) {
+                        //    return $("#category").val() == "none";
+                        //}
+                    },
+                    'Subject': {
+                 required: true,
+                          //depends: function (element) {
+                          //    return $("#category").val() == "none";
+                          //}
+            },
+                   
+                    messages: {
+                        //custom rules messages
+                        questioneditor: function (input) { }
+                    }
+                });
+                $("form").kendoValidator();
+            })(jQuery, kendo);
+    //end of custom validation code
+    //****************************************************************************************************************************
+    //        ________________________________________________________
+
+
+    $(document).ready(function () {
+
+        $("form").validate({
+
+            errorClass: 'help-block animation-slideDown', // You can change the animation class for a different entrance animation - check animations page
+            errorElement: 'div',
+            errorPlacement: function (error, e) {
+                e.parents('.form-group > div').append(error);
+            },
+            highlight: function (e) {
+
+                $(e).closest('.form-group').removeClass('has-success has-error').addClass('has-error');
+                $(e).closest('.help-block').remove();
+            },
+            success: function (e) {
+                e.closest('.form-group').removeClass('has-success has-error');
+                e.closest('.help-block').remove();
+            },
+            rules: {
+                'questions': {
+                    required: true,
+            },          
+          }
+       });
+    });
+
+    //_________________________________________________________________
+  
+
+</script>
+
+<script>
+    function Closepopup() {
+        $(".ui-dialog-titlebar-close").click();
+    }
+</script>

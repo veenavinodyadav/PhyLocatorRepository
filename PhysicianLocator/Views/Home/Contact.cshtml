@@ -1,0 +1,205 @@
+﻿@{
+    ViewBag.Title = "Contact Information";
+}
+<h2 class="martop0">@ViewBag.Title</h2>
+@*<h3>@ViewBag.Message</h3>*@
+<hr />
+<style>
+
+#map_wrapper {
+    height: 400px;
+}
+
+#map_canvas {
+    width: 100%;
+    height: 100%;
+}
+ html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+</style>
+<div class="">
+    <div class="col col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center contact-header">INDIA</div>
+            <div class="panel-body">
+                <address>
+                    <span>
+                        <strong><i class="fa fa-map-marker"></i> Address :</strong>
+                        OpenEyes Software Solutions Pvt Ltd (OPC)<br />
+                        K10 Atlantis, Bldg 'A', #235<br />
+                        Sarabhai Road, Vadodara – 390023
+                        <a href="@Url.Action("map","Home",new{id=1})" class="pull-right">
+                            <strong><i class="fa fa-map-marker"></i> </strong>
+                     
+                        </a>
+                    </span>
+                    <span>
+                        <strong><i class="fa fa-phone"></i> Telephone:</strong>
+                        +91 265.298.EYES
+                    </span>
+                    <span><strong><i class="fa fa-envelope"></i> Email:</strong><a href="mailto:info@theopeneyes.com">info@theopeneyes.com</a></span>
+                </address>
+            </div>
+        </div>
+    </div>
+    <div class="col col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center contact-header">USA</div>
+            <div class="panel-body">
+                <address>
+                    <span>
+                       
+                        <strong><i class="fa fa-map-marker"></i> Address :</strong>
+                        OpenEyes Software Solutions Pvt Ltd (OPC)<br />
+                        1629 K St NW #300 <br />
+                        Washington DC 20006
+                        <a href="@Url.Action("map","Home",new{id=2})" class="pull-right">
+                            <strong><i class="fa fa-map-marker"></i> </strong>
+
+                        </a>
+                    </span>
+                    <span>
+                        <strong><i class="fa fa-phone"></i> Telephone:</strong>
+                        +1 202.349.5858
+                    </span>
+                    <span><strong><i class="fa fa-envelope"></i> Email:</strong><a href="mailto:dc@theopeneyes.com">dc@theopeneyes.com</a></span>
+                </address>
+            </div>
+        </div>
+    </div>
+    <div class="col col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center contact-header">USA</div>
+            <div class="panel-body">
+                <address>
+                    <span>
+                        <strong><i class="fa fa-map-marker"></i> Address :</strong>
+                        OpenEyes Software Solutions Pvt Ltd (OPC)<br />
+                        46907 Wesleyan Ct <br />
+                        Sterling VA 20164
+                        <a href="@Url.Action("map","Home",new{id=3})" class="pull-right">
+                            <strong><i class="fa fa-map-marker"></i> </strong>
+
+                        </a>
+                    </span>
+                    <span>
+                        <strong><i class="fa fa-phone"></i> Telephone:</strong>
+                        +1 703.957.9525
+                    </span>
+                    <span><strong><i class="fa fa-envelope"></i> Email:</strong><a href="mailto:virginia@theopeneyes.com">virginia@theopeneyes.com</a></span>
+                </address>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+   
+    @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbrYaIdf_tROZRYmPwBj9iV54pGeOjWs0&sensor=false&libraries=geometry,places&ext=.js"></script>
+
+
+    <script>
+var locations = [
+    ['Location 1 Name', 'New York, NY', 'Location 1 URL'],
+    ['Location 2 Name', 'Newark, NJ', 'Location 2 URL'],
+    ['Location 3 Name', 'Philadelphia, PA', 'Location 3 URL']
+];
+
+var geocoder;
+var map;
+var bounds = new google.maps.LatLngBounds();
+
+function initialize() {
+    alert("sssssss");
+    map = new google.maps.Map(
+    document.getElementById("map_canvas"), {
+        center: new google.maps.LatLng(37.4419, -122.1419),
+        zoom: 13,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+   
+    geocoder = new google.maps.Geocoder();
+
+    for (i = 0; i < locations.length; i++) {
+
+
+        geocodeAddress(locations, i);
+    }
+}
+google.maps.event.addDomListener(window, "load", initialize);
+
+function geocodeAddress(locations, i) {
+    var title = locations[i][0];
+    var address = locations[i][1];
+    var url = locations[i][2];
+    geocoder.geocode({
+        'address': locations[i][1]
+    },
+
+    function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var marker = new google.maps.Marker({
+                icon: 'http://maps.google.com/mapfiles/ms/icons/red.png',
+                map: map,
+                position: results[0].geometry.location,
+                title: title,
+                animation: google.maps.Animation.DROP,
+                address: address,
+                url: url
+            })
+            infoWindow(marker, map, title, address, url);
+            bounds.extend(marker.getPosition());
+            map.fitBounds(bounds);
+        } else {
+            alert("geocode of " + address + " failed:" + status);
+        }
+    });
+}
+
+function infoWindow(marker, map, title, address, url) {
+    google.maps.event.addListener(marker, 'click', function () {
+        var html = "<div><h3>" + title + "</h3><p>" + address + "<br></div><a href='" + url + "'>View location</a></p></div>";
+        iw = new google.maps.InfoWindow({
+            content: html,
+            maxWidth: 350
+        });
+        iw.open(map, marker);
+    });
+}
+
+function createMarker(results) {
+    var marker = new google.maps.Marker({
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
+        map: map,
+        position: results[0].geometry.location,
+        title: title,
+        animation: google.maps.Animation.DROP,
+        address: address,
+        url: url
+    })
+    bounds.extend(marker.getPosition());
+    map.fitBounds(bounds);
+    infoWindow(marker, map, title, address, url);
+    return marker;
+}
+
+    </script>
+
+   
+
+   
+        <div id="map_canvas" style="width:750px; height:450px; border: 2px solid #3872ac;"></div>*@
+    

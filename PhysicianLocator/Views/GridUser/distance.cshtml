@@ -1,0 +1,312 @@
+﻿@model IEnumerable<PhysicianLocator.Models.AddressViewModel>
+
+<style>
+    #gmap_canvas {
+        height: 700px;
+        position: relative;
+        width: 900px;
+    }
+
+    .actions {
+        background-color: #FFFFFF;
+        bottom: 30px;
+        padding: 10px;
+        position: absolute;
+        right: 30px;
+        z-index: 2;
+        border-top: 1px solid #abbbcc;
+        border-left: 1px solid #a7b6c7;
+        border-bottom: 1px solid #a1afbf;
+        border-right: 1px solid #a7b6c7;
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;
+        border-radius: 12px;
+    }
+
+        .actions label {
+            display: block;
+            margin: 2px 0 5px 10px;
+            text-align: left;
+        }
+
+        .actions input, .actions select {
+            width: 85%;
+        }
+
+    .button {
+        background-color: #d7e5f5;
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d7e5f5), color-stop(100%, #cbe0f5));
+        background-image: -webkit-linear-gradient(top, #d7e5f5, #cbe0f5);
+        background-image: -moz-linear-gradient(top, #d7e5f5, #cbe0f5);
+        background-image: -ms-linear-gradient(top, #d7e5f5, #cbe0f5);
+        background-image: -o-linear-gradient(top, #d7e5f5, #cbe0f5);
+        background-image: linear-gradient(top, #d7e5f5, #cbe0f5);
+        border-top: 1px solid #abbbcc;
+        border-left: 1px solid #a7b6c7;
+        border-bottom: 1px solid #a1afbf;
+        border-right: 1px solid #a7b6c7;
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;
+        border-radius: 12px;
+        -webkit-box-shadow: inset 0 1px 0 0 white;
+        -moz-box-shadow: inset 0 1px 0 0 white;
+        box-shadow: inset 0 1px 0 0 white;
+        color: #1a3e66;
+        font: normal 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+        line-height: 1;
+        margin-bottom: 5px;
+        padding: 6px 0 7px 0;
+        text-align: center;
+        text-shadow: 0 1px 1px #fff;
+        width: 150px;
+    }
+
+        .button:hover {
+            background-color: #ccd9e8;
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ccd9e8), color-stop(100%, #c1d4e8));
+            background-image: -webkit-linear-gradient(top, #ccd9e8, #c1d4e8);
+            background-image: -moz-linear-gradient(top, #ccd9e8, #c1d4e8);
+            background-image: -ms-linear-gradient(top, #ccd9e8, #c1d4e8);
+            background-image: -o-linear-gradient(top, #ccd9e8, #c1d4e8);
+            background-image: linear-gradient(top, #ccd9e8, #c1d4e8);
+            border-top: 1px solid #a1afbf;
+            border-left: 1px solid #9caaba;
+            border-bottom: 1px solid #96a3b3;
+            border-right: 1px solid #9caaba;
+            -webkit-box-shadow: inset 0 1px 0 0 #f2f2f2;
+            -moz-box-shadow: inset 0 1px 0 0 #f2f2f2;
+            box-shadow: inset 0 1px 0 0 #f2f2f2;
+            color: #163659;
+            cursor: pointer;
+        }
+
+        .button:active {
+            border: 1px solid #8c98a7;
+            -webkit-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
+            -moz-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
+            box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
+        }
+</style>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbrYaIdf_tROZRYmPwBj9iV54pGeOjWs0&sensor=false&libraries=geometry,places&ext=.js"></script>
+<script>
+    var locations =@Html.Raw(ViewBag.Markers);
+    var Userlocations ="@Html.Raw(ViewBag.Address)";
+
+    //for current location//start
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+    }
+    //end
+
+    var geocoder;
+    var map;
+    var markers = Array();
+    var infos = Array();
+    var bounds = new google.maps.LatLngBounds();
+    function initialize() {
+        // prepare Geocoder
+
+        // set initial position (New York)
+        var myLatlng = new google.maps.LatLng(40.7143528, -74.0059731);
+        var myOptions = { // default map options
+            zoom: 10,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+        geocoder = new google.maps.Geocoder();
+
+        google.maps.event.addDomListener(window, "load", initialize);
+    }
+    function findhospital(location)
+    {
+        for (i = 0; i < locations.length; i++) {
+
+            geocodeAddress(locations, i);
+        }
+    }
+    // clear overlays function
+    function clearOverlays() {
+        if (markers) {
+            for (i in markers) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+            infos = [];
+        }
+    }
+    // clear infos function
+    function clearInfos() {
+        if (infos) {
+            for (i in infos) {
+                if (infos[i].getMap()) {
+                    infos[i].close();
+                }
+            }
+        }
+    }
+    function findCurrentLocation(locations) {
+      
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (p) {
+               
+                var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+                var title =p.coords.latitude;
+                var address = p.coords.latitude;
+                var url = p.coords.latitude;
+                geocoder.geocode({
+                    'address': locations[0][1]
+                },
+        
+                function (results, status) {
+                    //alert("codelocation");
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        map.setCenter(LatLng);
+                        var marker = new google.maps.Marker({
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/red.png',
+                            map: map,
+                            position:LatLng,
+                            title: "Latitude: " + p.coords.latitude + "Longitude: " + p.coords.longitude,
+                            animation: google.maps.Animation.DROP,
+                            address: "<div style = 'height:60px;width:200px'><b>Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude,                          
+                            url: url
+                        })
+                        //infoWindow(marker, map);
+                        //bounds.extend(marker.getPosition());          
+                        //map.fitBounds(bounds);
+                    } else {
+                        alert("geocode of " + address + " failed:" + status);
+                    }
+                });
+            })
+        };
+    }
+
+    // find address function
+    function findAddress() {
+        //var address = document.getElementById("gmap_where").value;
+        var address =Userlocations;
+     
+        // script uses our 'geocoder' in order to find location by address name
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) { // and, if everything is ok
+                // we will center map
+                var addrLocation = results[0].geometry.location;
+                map.setCenter(addrLocation);            
+                // store current coordinates into hidden variables
+                document.getElementById('lat').value = results[0].geometry.location.lat();
+                document.getElementById('lng').value = results[0].geometry.location.lng();
+                // and then - add new custom marker
+                var addrMarker = new google.maps.Marker({
+                    position: addrLocation,
+                    map: map,
+                    title: results[0].formatted_address,
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
+                });
+             
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+    // find custom places function
+    function findPlaces() {
+
+        // prepare variables (filter)
+        var type = document.getElementById('gmap_type').value;
+        var radius = document.getElementById('gmap_radius').value;
+        var keyword = document.getElementById('gmap_keyword').value;
+        var lat = document.getElementById('lat').value;
+        var lng = document.getElementById('lng').value;
+        var cur_location = new google.maps.LatLng(lat, lng);
+        alert(type + radius + lat + lng + cur_location);
+        // prepare request to Places
+        var request = {
+            location: cur_location,
+            radius: radius,
+            types: [type]
+        };
+        //alert(request);
+        if (keyword) {
+            request.keyword = [keyword];
+        }
+        // send request
+        service = new google.maps.places.PlacesService(map);
+        service.search(request, createMarkers);
+    }
+                                                                                                                
+    function geocodeAddress(locations, i) {
+        var title = locations[i][0];
+        var address = locations[i][1];
+        var url = locations[i][2];
+
+        geocoder.geocode({
+            'address': locations[i][1]
+        },
+
+        function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(address);
+                var marker = new google.maps.Marker({
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/red.png',
+                    map: map,
+                    position: results[0].geometry.location,
+                    title: title,
+                    animation: google.maps.Animation.DROP,
+                    address: address,
+                    url: url
+                })
+
+              
+                //bounds.extend(marker.getPosition());
+             
+                //map.fitBounds(bounds);
+
+            } else {
+                alert("geocode of " + address + " failed:" + status);
+            }
+        });
+    } 
+
+    function createMarker(results) {
+        var marker = new google.maps.Marker({
+            icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
+            map: map,
+            position: results[0].geometry.location,
+            title: title,
+            animation: google.maps.Animation.DROP,
+            address: address,
+            url: url
+        })
+        alert(aaaa);
+        bounds.extend(marker.getPosition());
+        map.fitBounds(bounds);
+        infoWindow(marker, map, title, address, url);
+        return marker;
+    }
+    // initialization
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<div id="gmap_canvas"></div>
+<div class="actions">
+    <div class="button">
+        <label for="gmap_where">Where:</label>
+        <input id="gmap_where" type="text" name="gmap_where" />
+    </div>
+    <div id="button2" class="button" onclick="findAddress(); return false;">Search for address</div>
+    <div id="button3" class="button" onclick="findCurrentLocation(locations); return false;">Current address</div>
+    <input type="hidden" id="lat" name="lat" value="40.7143528" />
+    <input type="hidden" id="lng" name="lng" value="-74.0059731" />
+    <div id="button1" class="button" onclick="findhospital(locations); return false;">Search for Hospitals</div>
+</div>
+

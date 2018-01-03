@@ -1,0 +1,32 @@
+﻿@model IEnumerable<PhysicianLocator.Models.QuestionRegistrationViewModel>
+
+
+
+@using (Html.BeginForm("Index", "Answer", FormMethod.Get))
+{
+    <br/>
+    <b> Search Option: </b>
+    <input id="Textbox" name="Textbox" type="text" />
+    <input type="submit" name="submitbutton1" value="Search" />
+    <input type="submit" name="submitbutton2" value="View All" />
+    @Html.ActionLink("Ask a question", "InitialFiles", "QuestionAnswer")
+}
+<br />
+<table class="table">
+  
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Raw(HttpUtility.HtmlDecode(item.QuestionRegistrationQuestion))
+                <br  />
+                @Html.DisplayFor(modelItem => item.QuestionRegistrationUserName)
+                @Html.DisplayFor(modelItem => item.QuestionRegistrationCreatedDate)
+              
+                @Html.ActionLink("View More", "QuestionAndAnswer", "QuestionAnswer",new {id=4},null)
+            </td>        
+        </tr>
+    }
+</table>
+
+

@@ -1,0 +1,134 @@
+﻿@model IEnumerable<PhysicianLocator.Models.UploadInitialFile>
+@*@model IEnumerable<PhysicianLocator.Models.QuestionRegistrationViewModel>*@
+@*@Html.ActionLink("Ask a question", "Login", "AccountManagment")*@
+
+
+@*@using (Html.BeginForm("Index", "QuestionAnswer", FormMethod.Get))
+    {
+
+    }
+    <br />*@
+@foreach (var item in ViewBag.Question)
+{
+    <div>
+        <div class="question">
+            <h3>@Html.Raw(HttpUtility.HtmlDecode(item.QuestionAnswerQuestion))</h3>
+
+        </div>
+        <div>
+            @Html.Raw(HttpUtility.HtmlDecode(item.QuestionAnswerDescription))
+            <br />
+        </div>
+        <div class="userdate">
+            @item.QuestionAnswerUserName   @item.QuestionAnswerCreatedDate
+        </div>
+    </div>
+
+
+}
+
+
+
+
+<style>
+    .file-icon {
+        display: inline-block;
+        float: left;
+        width: 48px;
+        height: 48px;
+        margin-left: 10px;
+        margin-top: 13.5px;
+    }
+
+    .img-file {
+        background-image: url(/content/web/upload/jpg.png);
+    }
+
+    .doc-file {
+        background-image: url(/content/web/upload/doc.png);
+    }
+
+    .pdf-file {
+        background-image: url(/content/web/upload/pdf.png);
+    }
+
+    .xls-file {
+        background-image: url(/content/web/upload/xls.png);
+    }
+
+    .zip-file {
+        background-image: url(/content/web/upload/zip.png);
+    }
+
+    .default-file {
+        background-image: url(/content/web/upload/default.png);
+    }
+
+    #example .file-heading {
+        font-family: Arial;
+        font-size: 1.1em;
+        display: inline-block;
+        float: left;
+        width: 60%;
+        margin: 0 0 0 20px;
+        height: 25px;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    #example .file-name-heading {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    #example .file-size-heading {
+        font-weight: normal;
+        font-style: italic;
+    }
+
+    li.k-file .file-wrapper .k-upload-action {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    li.k-file div.file-wrapper {
+        position: relative;
+        height: 75px;
+    }
+
+    /*hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+    }*/
+
+    div.question {
+        font-size: 16px;
+        color: blue;
+    }
+
+    div.userdate {
+        font-size: 13px;
+        text-align: right;
+        color: black;
+        margin-top: 10px;
+    }
+
+    div.answer {
+        color: gray;
+    }
+
+    header {
+        float: none !important;
+        width: auto !important;
+    }
+</style>
+

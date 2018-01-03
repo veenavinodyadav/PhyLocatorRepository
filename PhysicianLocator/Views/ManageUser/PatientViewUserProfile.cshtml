@@ -1,0 +1,229 @@
+﻿@model PhysicianLocator.Models.AdminUserRegViewModel
+
+
+<h2> Your Profile</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Personal Information</a></li>
+            <li><a data-toggle="tab" href="#menu1">Address</a></li>
+           
+           
+            <li><a data-toggle="tab" href="#menu4">Health History</a></li>
+            @* <li><a data-toggle="tab" href="#menu4">stats</a></li>*@
+        </ul>
+
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <div class="col-md-2 martop20">
+                    <img src="@Url.Content(@ViewBag.contentpath)" class="img-responsive img-circle" style="background: #999; padding: 2px;" />
+                </div>
+                <div class="col-md-10">
+                    <table class="table martop20">
+                        <tbody>
+
+                            <tr>
+                                <td width="200">@Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "" })</td>
+                                <td>
+                                    <div>
+                                        @Html.DisplayFor(model => model.FirstName, new { htmlAttributes = new { @class = "" } })
+                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "" })</td>
+                                <td>
+                                    <div>
+                                        @Html.DisplayFor(model => model.LastName, new { htmlAttributes = new { @class = "" } })
+                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "" })</td>
+                                <td>
+                                    <div>
+                                        @Html.DisplayFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "" } })
+                                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.CellPhone, htmlAttributes: new { @class = "" })</td>
+                                <td>
+                                    <div>
+                                        @Html.DisplayFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6"></div>
+                @* <input name='YourValue' value='Test' />*@
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @*<div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Edit" class="btn btn-default" />
+                        </div>
+                    </div>*@
+            </div>
+            <div id="menu1" class="tab-pane fade">
+
+                <div class="col-md-6">
+                    <h3>Primary Address</h3>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel1.Street1)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel1.Street1)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel1.Street2)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel1.Street2)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel1.Street3)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel1.Street3)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel1.City)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel1.City)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel1.State)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel1.State)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel1.CountryId)</td>
+                                <td>@Html.DisplayFor(model => model.CountryName1)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel1.Zipcode)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel1.Zipcode)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <h3>Secondary Address</h3>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel2.Street1)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel2.Street1)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel2.Street2)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel2.Street2)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel2.Street3)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel2.Street3)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel2.City)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel2.City)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel2.State)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel2.State)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel2.CountryId)</td>
+                                <td>@Html.DisplayFor(model => model.CountryName2)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.AddressViewModel2.Zipcode)</td>
+                                <td>@Html.DisplayFor(model => model.AddressViewModel2.Zipcode)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                @*<input type="submit" value="Edit" class="btn btn-default" />*@
+            </div>
+        
+         
+
+
+            <div id="menu4" class="tab-pane fade">
+                <h3>Health History</h3>
+
+
+
+
+                @*/////////////////*@
+
+                @*<h3>List of all the users </h3>
+                    <br />*@
+                @************************************************************@
+
+
+                @(Html.Kendo().Grid<PhysicianLocator.Models.HealthGridModel>()
+.Name("gidhealth")
+.Columns(columns =>
+{
+    columns.Bound(c => c.Type).Title(" Type").HeaderHtmlAttributes(new { style = "font-size: 12pt; font-weight: bold;" });
+    columns.Bound(c => c.Description).Title("Description ").HeaderHtmlAttributes(new { style = "font-size: 12pt; font-weight: bold;" });
+    columns.Bound(c => c.StartDate).Title("Start Date").HeaderHtmlAttributes(new { style = "font-size: 12pt; font-weight: bold;" });
+    columns.Bound(c => c.EndDate).Title("End Date").HeaderHtmlAttributes(new { style = "font-size: 12pt; font-weight: bold;" });
+
+})
+
+.ColumnMenu()
+.Scrollable()
+.DataSource(dataSource => dataSource
+.Ajax()
+.Model(model => model.Id(p => p.HealthId))
+.Read(read => read.Action("Health_Read", "GridUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }))
+
+))
+
+
+                @**********************************************************@
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    int userid = Convert.ToInt32(Session["UserID"]);
+
+    if (userid != 0)
+    {
+
+        if (Session["UserName"] != null)
+        {
+            <div class="col-md-12 martop20">
+                @Html.ActionLink("Edit Profile", "PatientEditUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
+            </div>
+        }
+    }
+
+    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>*@
+
+
+}
+@*<input type="submit" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("EditUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"]})'" />*@
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+

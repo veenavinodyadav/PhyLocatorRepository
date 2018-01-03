@@ -1,0 +1,61 @@
+﻿@model IEnumerable<PhysicianLocator.Models.TempDetailModel>
+
+@{
+    ViewBag.Title = "LkUpDetailsView";
+}
+
+<h2 class="martop0">List of Category Details <span class="pull-right"> @Html.ActionLink("Add  Details to Category", "LkUpDetailsCreate", "LookUp", new {@class="btn", title = "List of Category Details" }) @Html.ActionLink("View list of Category", "LkUpCategoryView", "LookUp", new { @class = "btn", title = "View list of Category" })</span></h2>
+
+<table class="table table-striped martop20">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SortOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Key)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Value)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+      
+     </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SortOrder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Key)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Value)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+       
+        <td class="text-right">
+            <a class="btn" href="/LookUp/LkUpDetailsEdit/@item.Lookupdetailid" title="Edit Details">
+                <i class="fa fa-pencil"></i>
+                @*Edit*@
+            </a>
+            <a class="btn" href="/LookUp/LkUpDetailsDelete/@item.Lookupdetailid" onclick="return confirm('Are you sure you want to delete this User?');"title="Delete Details">
+                <i class="fa fa-trash"></i>
+                @*Delete*@
+            </a>
+        
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,205 @@
+﻿<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="login-box contact-form">
+            @model PhysicianLocator.Models.RegistrationViewModel
+
+            @{
+                ViewBag.Title = "Register";
+            }
+            <h2>Sign Up</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="">
+                    <div class="form-group">
+                        <div class="">
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "required" })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "required" })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "required" })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="">
+                            @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "required" })
+                            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="">
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "required" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "required" })
+                        @(Html.Kendo().DatePicker()
+                          .Name("kendoDOB")
+//.HtmlAttributes(new { placeholder = "Date", required = "Date of Birth must be required.", data_required_msg = "Date of Birth must be required", style = "width:" })
+.HtmlAttributes(new { placeholder = "Date of Birth", required = "required", validationmessage = "Enter valid Date of Birth", style = "width:280px" }).Max("1/1/1994")
+                          .Min("1/1/1957")
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.LabelFor(model => model.CellPhone, htmlAttributes: new { @class = "required" })
+                        @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+
+                        @Html.ValidationMessageFor(model => model.GenderId, "", new { @class = "text-danger" })
+                        @Html.DropDownList("ExperienceSelect", new List<SelectListItem>{
+                                                                                 new SelectListItem{ Text="Male", Value="Male"},
+                                                                                 new SelectListItem{ Text="Female", Value="Female"}
+                                                                               }, "--- Select ---", new { onchange = "ExperienceFunction()" })
+                        @Html.LabelFor(model => model.GenderId, htmlAttributes: new { @class = "required", @id = "experience-value" })
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.GenderId, htmlAttributes: new { @class = "required" })
+                            @Html.ValidationMessageFor(model => model.GenderId, "", new { @class = "text-danger" })
+                            @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
+                            @Html.RadioButtonFor(model => model.GenderId, 0, new { @checked = true }) Female
+                        </div>*@
+
+                    <div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="text-center">
+                                <button class="btn" type="submit">Sign Up</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
+        </div>
+    </div>
+</div>
+<style>
+   .required:before {
+        content: "*";
+        font-weight: bold;
+        font-size: large;
+        color: red;
+    }
+</style>
+
+@*<script>
+            $(function () {
+                $("form").kendoValidator();
+            });
+    </script>*@
+
+<script>
+    $(function () {
+
+        $("form").kendoValidator({
+
+            rules: {
+                'kendoDOB': function (input) {
+                        var date = $("#kendoDOB").val()
+                        if (date != "") {
+
+                            var current = new Date();
+                            var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'yyyy');
+                            var currentyear = current.getFullYear();
+                            var calculatedyaer = currentyear - kendoyear;
+                            if (calculatedyaer <= 18) {
+                                //alert(calculatedyaer);
+                                return false;
+                            }
+                      }
+
+                    return true;
+                }
+            },
+            messages: {
+                'kendoDOB': function (input) {
+                    required: "Degree is mandatory!"
+                    //if (date != "") {
+                    //alert("ddddddd");
+                    return input.attr("ggggggg");
+                        //}
+                }
+            //messages: {
+
+            //    'kendoDOB': {
+
+            //        required: "Degree is mandatory!",
+
+            //        pattern: "Please enter letter and special characters like DOT, Single Quote and Space!",
+
+            //    }
+
+
+        }
+
+        });
+    });
+
+
+
+    if (window.location.href === "http://localhost:30578/AccountManagment/Register") {
+        $("body").addClass("bg-login");
+    }
+
+
+    function ExperienceFunction() {
+        var x = document.getElementById("ExperienceSelect").value;
+        document.getElementById("experience-value").innerHTML = "" + x;
+        $("#experience-value").removeClass("required");
+    }
+
+    $('input,textarea').val("");
+    $('.contact-form .form-group input,.contact-form .form-group textarea').focusout(function () {
+        var text_val = $(this).val();
+        if (text_val === "") {
+            $(this).removeClass('has-value');
+        } else {
+            $(this).addClass('has-value');
+        }
+    });
+</script>

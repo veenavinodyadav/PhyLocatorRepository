@@ -1,0 +1,79 @@
+﻿@model IEnumerable<PhysicianLocator.Models.CountryViewModels>
+
+@{
+    ViewBag.Title = "LkUpCountryView";
+}
+  @*@ViewBag.Message*@
+
+<h2>
+    List of Countries @*@Html.ActionLink("Add New Country", "LkUpCountryCreate", "LookUp", htmlAttributes: new { @class = "btn pull-right" })*@
+    <a class="btn pull-right" href="/LookUp/LkUpCountryCreate" title="Add New Country">
+        <i class="fa fa-plus"></i>
+        Add New Country
+    </a>
+    
+</h2>
+@*<p>
+    @Html.ActionLink("Add New Country", "LkUpCountryCreate", "LookUp")
+</p>*@
+<table class="table table-striped martop20">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CountryName)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifiedBy)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountryName)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifiedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifiedBy)
+        </td>*@
+        <td class="text-right">
+            <a class="btn" href="/LookUp/LkUpCountryEdit/@item.CountryId" title="Edit Country">
+                <i class="fa fa-pencil"></i>
+                @*Edit*@
+            </a>
+            <a class="btn" href="/LookUp/LkUpCountryDelete/@item.CountryId" onclick="return confirm('Are you sure you want to delete this User?');"title="Delete Country">
+                <i class="fa fa-trash"></i>
+                @*Delete*@
+            </a>
+            @*@Html.ActionLink("Edit", "LkUpCountryEdit", "LookUp", new { @Id = item.CountryId }, null)
+            @Html.ActionLink("Delete", "LkUpCountryDelete", "LookUp", new { id = item.CountryId }, new { onclick = "return confirm('Are you sure you want to delete this User?');" })*@
+            
+        </td>
+      
+    </tr>
+}
+
+</table>

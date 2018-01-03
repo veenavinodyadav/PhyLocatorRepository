@@ -1,0 +1,376 @@
+﻿@model PhysicianLocator.Models.AdminUserRegViewModel
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Personal Info</a></li>
+            <li><a data-toggle="tab" href="#menu1">Address</a></li>
+            <li><a data-toggle="tab" href="#menu2">Education</a></li>
+            <li><a data-toggle="tab" href="#menu3">Experience</a></li>
+            <li><a data-toggle="tab" href="#menu4">stats</a></li>
+        </ul>
+
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <h3>Personal Info</h3>
+          
+              
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+      
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+
+                        @(Html.Kendo().DatePicker()
+                         .Value(Model.DateOfBirth)
+                          .Name("kendoDOB")
+                          .HtmlAttributes(new { style = "width: 280px" })
+                          .Max("1/1/1994")
+                          .Min("1/1/1957")
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CellPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Edit" class="btn btn-default" />
+                    </div>
+                </div>
+               
+
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <h3>Address</h3>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Street1, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Street1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Street1, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Street2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Street2, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Street2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Street3, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Street3, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Street3, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+                        @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                        @(Html.Kendo().DropDownList()
+                                  .Name("kendoCountry")
+                                  .HtmlAttributes(new { style = "width: 280px" })
+                                  .Filter("contains")
+                                  .Value(Model.CountryName)
+                                  .DataTextField("CountryName")
+                                  .DataValueField("ID")
+                                  //.OptionLabel("Select country...")
+                                  .DataSource(source => source
+                                  .Custom()
+                                  .Transport(transport => transport
+                                  .Read(read =>
+                                  {
+                                      read.Action("CountryDropDown", "AccountManagment");
+
+                                  })
+                                  ).ServerFiltering(true)
+)
+
+                        )
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Zipcode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <h3>Education</h3>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CurrentEducationInstituteId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(model => model.CurrentEducationInstituteId, "", new { @class = "text-danger" })
+                        <div class="demo-section k-content">
+
+                            @(Html.Kendo().AutoComplete()
+          .Name("kendoInstitute")
+          .Filter("startswith")
+          .Value(Model.InstituteName)
+
+          .Placeholder("Select institue...")
+          .DataTextField("InstitueName")
+
+          //.OptionLabel("Select country...")
+          .DataSource(source => source
+          .Custom()
+          .Transport(transport => transport
+          .Read(read =>
+          {
+              read.Action("InstitueName", "AccountManagment");
+
+
+          })))
+
+
+                            )
+
+                            <div class="demo-hint">Start typing the name of an Institue</div>
+
+                        </div>
+                        <style>
+                            .k-autocomplete {
+                                width: 50%;
+                            }
+                        </style>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Degree, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Degree, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Degree, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+
+                        @(Html.Kendo().DatePicker()
+                          .Name("kendoStartDate")
+                          .Value(Model.StartDate)
+                          .HtmlAttributes(new { style = "width: 280px" })
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                        @(Html.Kendo().DatePicker()
+                          .Name("kendoEndDate")
+                               .Value(Model.EndDate)
+                          .HtmlAttributes(new { style = "width: 280px" })
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+                    </div>
+                </div>
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+            <div id="menu3" class="tab-pane fade">
+                <h3>Experience</h3>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.JoinStartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(model => model.JoinStartDate, "", new { @class = "text-danger" })
+
+                        @(Html.Kendo().DatePicker()
+                        .Value(Model.JoinStartDate)
+                          .Name("kendoSD")
+                          .HtmlAttributes(new { style = "width: 280px" })
+                          .Max("1/1/1994")
+                          .Min("1/1/1957")
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.JoinEndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(model => model.JoinEndDate, "", new { @class = "text-danger" })
+                        @(Html.Kendo().DatePicker()
+                          .Name("kendoED")
+                          .Value(Model.JoinEndDate)
+                          .HtmlAttributes(new { style = "width: 280px" })
+                          .Max("1/1/1994")
+                          .Min("1/1/1957")
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReasonForLeaving, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ReasonForLeaving, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ReasonForLeaving, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                    </div>
+                </div>           
+                <input type="submit" value="Edit" class="btn btn-default" />
+             </div>
+            <div id="menu4" class="tab-pane fade">
+                <h3>stats</h3>
+                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>
+        </div>
+    </div>
+
+    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>*@
+
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

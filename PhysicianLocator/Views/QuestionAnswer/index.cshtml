@@ -1,0 +1,8 @@
+﻿@model IEnumerable<PhysicianLocator.Models.QuestionAnswerViewModel>
+
+@if (Session["UserName"] != null)
+            {
+      
+    @Html.Partial("_questionlistPartial")
+}
+

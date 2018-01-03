@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LocatorModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TblRegistration">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="WhoAreYou" Type="nvarchar" MaxLength="7" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="25" Nullable="false" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="6" Nullable="false" />
+    <Property Name="DOB" Type="datetime" Nullable="false" />
+    <Property Name="ContactNo" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Street1" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Street2" Type="nvarchar" MaxLength="100" />
+    <Property Name="City" Type="nvarchar" MaxLength="25" Nullable="false" />
+    <Property Name="State" Type="nvarchar" MaxLength="25" Nullable="false" />
+    <Property Name="CountryId" Type="int" Nullable="false" />
+    <Property Name="PostalCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Landmark" Type="nvarchar" MaxLength="100" />
+    <Property Name="IMAI" Type="nvarchar" MaxLength="10" />
+    <Property Name="Reference1" Type="nvarchar" MaxLength="30" />
+    <Property Name="Reference2" Type="nvarchar" MaxLength="30" />
+    <Property Name="RegisterDate" Type="datetime" Nullable="false" />
+    <Property Name="ActivationCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="IsUserActive" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="LocatorModel1StoreContainer">
+    <EntitySet Name="TblRegistration" EntityType="Self.TblRegistration" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

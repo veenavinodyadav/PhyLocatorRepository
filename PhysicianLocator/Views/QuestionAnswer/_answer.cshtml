@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PhysicianLocator.Models.AnswerOnQuestionViewModel>
+@using (Html.BeginForm("Index", "QuestionAnswer", FormMethod.Get))
+{
+    
+}
+<br />
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <label id="label" name="lbl_Question" >Question :</label>
+                @Html.Raw(HttpUtility.HtmlDecode(item.AnswerOnQuestionQuestion))
+                <br />
+                <label id="label" name="lbl_QuestionDescription">Question Description :</label> 
+                @Html.Raw(HttpUtility.HtmlDecode(item.AnswerOnQuestionQuestionDescription))
+                @Html.ActionLink("Answer the Question", "Register", "Registrations")
+               
+             
+
+
+            </td>
+        </tr>
+    }
+</table>
+

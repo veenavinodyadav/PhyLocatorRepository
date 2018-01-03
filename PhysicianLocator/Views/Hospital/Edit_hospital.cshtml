@@ -1,0 +1,116 @@
+﻿@model PhysicianLocator.Models.AdminHospitalViewModel
+@{
+    ViewBag.Title = "Edit_hospital";
+    Layout = null;
+}
+
+<h2>Edit_hospital</h2>
+
+@Html.Partial("_HospitalAddress")
+@Html.Partial("_Hospital")
+<button class="edit-user display-mode">Edit</button>
+<button class="save-user edit-mode">Save</button>
+<button class="cancel-user edit-mode">Cancel</button>
+
+<script>
+    function Closepopup() {
+        $(".ui-dialog-titlebar-close").click();
+      }
+      $(document).ready(function () {
+
+          $('.edit-user').click(function () {
+
+              var dad = $(this).parent().parent();
+              dad.find('edit-mode').hide();
+              dad.find('display-mode').show().focus();
+          });
+
+          $('.edit-mode').hide();
+          $('.edit-user, .cancel-user').on('click', function () {
+              var tr = $(this).parent();
+              tr.find('.edit-mode, .display-mode').toggle();
+          });
+          $('.save-user').click(function () {
+
+              var dad = $(this).parent().parent();
+              var HospitalId = dad.find("#hdnID").val();
+
+              var HospitalName = dad.find("#txt_HospitalName").val();
+              dad.find("#lbl_HospitalName").text(HospitalName);
+
+              var NumberOfBranches = dad.find("#txt_NumberOfBranches").val();
+              dad.find("#lbl_NumberOfBranches").text(NumberOfBranches);
+
+              var NumberOfBeds = dad.find("#txt_NumberOfBeds").val();
+              dad.find("#lbl_NumberOfBeds").text(NumberOfBeds);
+
+              var NumberOfDoctors = dad.find("#txt_NumberOfDoctors").val();
+              dad.find("#lbl_NumberOfDoctors").text(NumberOfDoctors);
+
+              var Specialities = dad.find("#txt_Specialities").val();
+              dad.find("#lbl_Specialities").text(Specialities);
+
+           
+
+              var aID = dad.find("#aID").val();
+
+              var Street1 = dad.find("#txt_Street1").val();
+              dad.find("#lbl_Street1").text(Street1);
+
+              var Street2 = dad.find("#txt_Street2").val();
+              dad.find("#lbl_Street2").text(Street2);
+
+              var Street3 = dad.find("#txt_Street3").val();
+              dad.find("#lbl_Street3").text(Street3);
+
+              var State = dad.find("#txt_State").val();
+              dad.find("#lbl_State").text(State);
+
+              var CountryName1 = dad.find("#txt_CountryName1").val();
+              dad.find("#lbl_CountryName1").text(CountryName1);
+
+              dad.find('.edit-mode').hide();
+              dad.find('.display-mode').show();
+
+              var Id = parseInt(HospitalId);
+              var Name = HospitalName;
+
+              dad.find('.edit-mode').hide();
+              dad.find('.display-mode').show();
+
+              var Id = parseInt(HospitalId);
+              var Name = HospitalName;
+              alert(HospitalId + NumberOfBeds+NumberOfDoctors+Specialities);
+
+              var HospitalModel =
+              {
+                  "HospitalId": HospitalId,
+                  "HospitalName": HospitalName,
+                  "NumberOfBranches": NumberOfBranches,
+                  "NumberOfBeds": NumberOfBeds,
+                  "NumberOfDoctors": NumberOfDoctors,
+                  "Specialities": Specialities,
+                   "Street1": Street1,
+                  "Street1": Street1,
+                  "Street3": Street3,
+                  "State": State,
+                  "CountryName1": CountryName1
+              };
+
+              $.ajax({
+
+                  url: '/Hospital/ChangeUser/',
+                  //data: JSON.stringify({ "HospitalId": Id, "HospitalName": Name }),
+                  data: JSON.stringify(HospitalModel),
+                  dataType: "json",
+                  type: 'POST',
+                  contentType: 'application/json; charset=utf-8',
+                  success: function (data) {
+                  alert(data);
+                  }
+              });
+          });
+
+      });
+
+</script>

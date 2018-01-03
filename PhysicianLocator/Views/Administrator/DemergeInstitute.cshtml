@@ -1,0 +1,42 @@
+﻿<h2 class="martop0">Demerge Institute</h2>
+@using (Html.BeginForm())
+{ @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        <div class="demo-section k-content">
+            <label id="label" class="required">Select institute name </label> @(Html.Kendo().MultiSelect().Name("required").DataTextField("InstitueName").DataValueField("InstitueName").HtmlAttributes(new { required = "required", validationmessage = "Select institute name", style = "width:280px" }).Placeholder("Select institutes...").AutoBind(true).DataSource(source => { source.Read(read => { read.Action("DisableInstitueName", "AccountManagment"); }).ServerFiltering(true); }))
+        </div>
+        <style>
+            .k-content {
+                width: 25%;
+            }
+        </style>
+        <br />
+        <div class="form-group">
+            <div class="col-md-10">
+                <button class="btn btn-default" type="submit">Demerge</button>
+                @*<input type="submit" value="Demerge" class="btn btn-default" />*@
+            </div>
+        </div>
+    </div>
+} @ViewBag.message
+@*<div>
+    @Html.ActionLink("Demerge", "Index")
+</div>*@
+
+<style>
+    .required:before {
+        content: "*";
+        font-weight: bold;
+        font-size: large;
+        color: red;
+    }
+</style>
+
+<script>
+    $(function() {
+        $("form").kendoValidator();
+    });
+</script>

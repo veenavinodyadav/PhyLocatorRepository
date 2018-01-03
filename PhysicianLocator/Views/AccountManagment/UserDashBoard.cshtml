@@ -1,0 +1,23 @@
+﻿@model IEnumerable<PhysicianLocator.Models.QuestionRegistrationViewModel>
+@{
+    ViewBag.Title = "UserDashBoard";
+}
+  
+@Html.Partial("_demoPartial")
+
+
+@*<fieldset>
+        <legend>User DashBoard</legend>
+
+        @if (Session["UserName"] != null)
+        { <text >
+        Welcome @Session["UserName"].ToString() </text>
+        }
+
+    </fieldset>*@
+
+Welcome @HttpContext.Current.Session["UserName"]
+@*Welcome @ViewBag.Message*@
+@*@Html.ActionLink("Ask a question", "InitialFiles", "QuestionAnswer")*@
+@Html.ActionLink("Question Answer", "Index", "QuestionAnswer")
+

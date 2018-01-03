@@ -1,0 +1,15 @@
+﻿1>------ Build started: Project: PhysicianLocator, Configuration: Debug Any CPU ------
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AdministratorController.cs(73,46,73,47): warning CS0168: The variable 'e' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AdministratorController.cs(87,46,87,47): warning CS0168: The variable 'e' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AdministratorController.cs(120,46,120,47): warning CS0168: The variable 'e' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AdministratorController.cs(135,46,135,47): warning CS0168: The variable 'e' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AdministratorController.cs(187,38,187,39): warning CS0168: The variable 'e' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\DAL\CommonFunction.cs(98,30,98,32): warning CS0168: The variable 'ex' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\GridUserController.cs(245,30,245,32): warning CS0168: The variable 'ex' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\ManageUserController.cs(104,34,104,35): warning CS0168: The variable 'e' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AccountManagmentController.cs(353,21,353,31): warning CS0162: Unreachable code detected
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AccountManagmentController.cs(357,30,357,32): warning CS0168: The variable 'ex' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AccountManagmentController.cs(478,30,478,32): warning CS0168: The variable 'ex' is declared but never used
+1>C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\Controllers\AccountManagmentController.cs(14,13,14,14): warning CS0414: The field 'AccountManagmentController.i' is assigned but its value is never used
+1>  PhysicianLocator -> C:\Users\developer1\Desktop\New folder\PhysicianLocator\PhysicianLocator\bin\PhysicianLocator.dll
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

@@ -1,0 +1,310 @@
+﻿@model PhysicianLocator.Models.RegistrationViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UserId)
+
+      
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @*@Html.TextBoxFor(model => model.UserName, new { htmlAttributes = new { @class = "editor-label"} })*@
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+   
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.GenderId, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.GenderId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GenderId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-7">
+                @*  @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })*@
+
+                <div class="k-edit-field">
+                    @(Html.Kendo().DatePicker()
+                .Name("DOB")
+                //.HtmlAttributes(new {  style = "width: 220px" })
+                //.Min(new DateTime(1957, 1, 1))
+                //.Max(new DateTime(1994, 12, 31))
+                //.Max("1/1/1994")
+                //.Min("1/1/1957")
+                .Value(Model.DateOfBirth)
+                .Format("MM/dd/yyyy")
+                    )
+                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.CellPhone, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Street1, htmlAttributes: new { @class = "control-label " })
+            </div>
+
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.Street1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Street1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Street2, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.Street2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Street2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">*@
+                @*@Html.EditorFor(model => model.CountryId, new { htmlAttributes = new { @class = "form-control" } })*@
+                @*@Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                @(Html.Kendo().DropDownListFor(model => model.CountryId)
+                                       //.Name("kendoCountry")
+                                       .HtmlAttributes(new { value = "", style = "width: 220px" })
+                                  .Value(Model.CountryId.ToString())
+                    .DataTextField("CountryName")
+                    .DataValueField("ID")
+                    //.OptionLabel("Select country...")
+                    .DataSource(source => source
+                    .Custom()
+                    .Transport(transport => transport
+                    .Read(read =>
+                    {
+                        read.Action("CountryDropDown", "UserAccount");
+
+                    })))
+                )
+            </div>
+
+        </div>*@
+
+        @*<div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        
+
+
+
+
+        @*@{string name = @ViewBag.Messag;}
+
+
+            @if(name == "doctor")
+            {
+
+            <div class="doctorclass">
+                <div class="af-outer af-required">
+                    <div class="af-inner">
+                       @Html.ValidationMessageFor(model => model.IMAI, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.IMAI, htmlAttributes: new { @class = "control-label col-md-3" })
+                        @Html.EditorFor(model => model.IMAI, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+            }
+            else
+            {
+                <div class="patientclass">
+                    <div class="af-outer af-required">
+                        <div class="af-inner">
+                            @Html.ValidationMessageFor(model => model.Reference1, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.Reference1, htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.EditorFor(model => model.Reference1, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="af-outer af-required">
+                        <div class="af-inner">
+                            @Html.ValidationMessageFor(model => model.Reference2, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.Reference2, htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.EditorFor(model => model.Reference2, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                </div>
+            }*@
+
+        @*<div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.RegisterDate, htmlAttributes: new { @class = "control-label " })
+            </div>
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.RegisterDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RegisterDate, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.ActivationCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ActivationCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ActivationCode, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @*<div class="form-group">
+            <div class="col-md-4">
+               
+                @Html.LabelFor(model => model.IsUserActive, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="k-edit-field">
+                @Html.EditorFor(model => model.IsUserActive, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsUserActive, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>*@
+    </div>
+}
+
+<div>
+    @*@Html.ActionLink("Back to List", "Index")*@
+</div>
+@*<link href="@Url.Content("~/Content/style2.css")" rel="stylesheet" />*@
+<style type="text/css">
+    .editor-label input, .display-label {
+        border: 0;
+    }
+
+    .editor-field, .display-field {
+        margin: 1em 0 0 0;
+        min-height: 1.5em;
+    }
+
+    .col-md-7.editor-label {
+        clear: initial;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+</style>
+
+<script type="text/javascript">
+
+
+
+  function hideshow() {
+
+
+          var input = document.getElementById("WhoAreYou").value;
+
+          alert(input);
+
+          if (input == "doctor") {
+              $(".patientclass").hide();
+              $(".doctorclass").show();
+          } else {
+              $(".doctorclass").hide();
+              $(".patientclass").show();
+          }
+
+  }
+  //$("input").blur(function () {
+  //    alert("This input field has lost its focus.");
+  //});
+</script>

@@ -1,0 +1,387 @@
+﻿@model IEnumerable<PhysicianLocator.Models.CommentViewModel>
+
+@foreach (var item in ViewBag.Question)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="userdate">
+                <div class="pull-left">
+                    @item.QuestionAnswerUserName  @item.date
+                </div>
+            </div>
+            <div class="user-links">
+                @Html.ActionLink("Edit", "EditQuestion", "QuestionAnswer", new { id = item.QuestionAnswerId },null) |
+                @Html.ActionLink("Delete", "DeleteQuestion", "QuestionAnswer", new { id = item.QuestionAnswerId, onclick = "return confirm('Are you sure you want to delete this User?');" })
+            </div>
+            <div>
+                <div class="question martop20">
+                    <h3 class="martop0">@Html.Raw(HttpUtility.HtmlDecode(item.QuestionAnswerQuestion))</h3>
+                </div>                
+                <p>@Html.Raw(HttpUtility.HtmlDecode(item.QuestionAnswerDescription))</p>
+                
+                @if (ViewBag.Answer != null)
+                {
+                    foreach (var answer in ViewBag.Answer)
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                              <label>Answer</label>
+                                  <div>
+                                    <div class="answer">
+                                        <div>@Html.Raw(HttpUtility.HtmlDecode(answer.QuestionAnswerAnswer))</div>
+                                        <div class="user-links">
+                                            @Html.ActionLink("Edit", "EditAnswer", "QuestionAnswer", new { id = answer.QuestionAnswerAnswerId }, null)
+                                            @Html.ActionLink("Delete", "DeleteAnswer", "QuestionAnswer", new { id = answer.QuestionAnswerAnswerId }, null)
+                                            @Html.ActionLink("Comment", "CommentInsert", "QuestionAnswer", new { id = answer.QuestionAnswerAnswerId }, null)
+                                        </div>
+                                        <div class="userdate">
+                                            @answer.QuestionAnswerUserName | @answer.date
+                                        </div>
+                                        @if (ViewBag.Comment != null)
+                                        {
+                                            foreach (var comment in ViewBag.Comment)
+                                            {
+                                                if (answer.QuestionAnswerAnswerId == comment.answerid)
+                                                {
+                                                 <div class="panel panel-default">
+                                                   <div class="panel-body">   
+                                                    <div class="answer comment">
+                                                        <label>Comment</label>
+                                                        @*@comment.CommentId*@
+                                                        <div>
+                                                            @Html.Raw(HttpUtility.HtmlDecode(comment.comm))
+                                                        </div>
+                                                        <div class="user-links">
+                                                            @Html.ActionLink("Edit", "EditCommit", "QuestionAnswer", new { id = @comment.CommentId }, null)
+                                                            @Html.ActionLink("Delete", "DeleteComment", "QuestionAnswer", new { id = @comment.CommentId }, null)
+                                                            @Html.ActionLink("Comment", "CommentCommentInsert", "QuestionAnswer", new { id = @comment.CommentId }, null)
+                                                        </div>
+                                                    </div>
+                                
+                                                    <div class="userdate">
+                                                        @comment.CreatedBy   @comment.date
+
+                                                    </div>
+                                </div>
+                                                     </div>
+                                                }
+
+                                            }
+                                        }
+
+                                    </div>                                   
+                                </div>                             
+                            </div>
+                        </div>
+
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+    
+    <hr />
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <br />
+
+        @(Html.Kendo().Editor()
+        .Name("cat")
+        .HtmlAttributes(new { required = "required", validationmessage = "Plaease enter answer", style = "height:40px" })
+        .Resizable(resizable => resizable.Content(true))
+        .Tools(tools => tools
+               .Clear()
+               .Bold().Italic().Underline().Strikethrough()
+               .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+               .CreateLink().Unlink()
+               //.InsertImage()
+               //.TableEditing()
+               .FontColor().BackColor())     
+        )
+
+        <script id="fileTemplate" type="text/x-kendo-template">
+            <span class='k-progress'></span>
+            <div class='file-wrapper'>
+                <span class='file-icon #=addExtensionClass(files[0].extension)#'></span>
+                <h4 class='file-heading file-name-heading'>Name: #=name#</h4>
+                <h4 class='file-heading file-size-heading'>Size: #=size# bytes</h4>
+                <button type='button' class='k-upload-action'></button>
+            </div>
+        </script>
+
+        <div @*class="demo-section k-content"*@>
+            @(Html.Kendo().Upload()
+              .Name("files")
+              .TemplateId("fileTemplate")
+              .Async(a => a
+              .Save("AnswerSaveAndPersist", "QuestionAnswer")
+              .Remove("RemoveAndPersist", "QuestionAnswer")
+              .AutoUpload(false))
+                //.Files(files =>
+                //{
+                //    foreach (var f in Model)
+                //    {
+                //        files.Add().Name(f.Name).Extension(f.Extension).Size(f.Size);
+                //    }
+                //})
+                .ShowFileList(true)
+                .Events(e => e.Success("onSuccess")
+                .Cancel("onCancel")
+                .Clear("onClear")
+                //.Complete("onComplete")
+                //.Error("onError")
+                //.Progress("onProgress")
+                //.Remove("onRemove")
+                //.Select("onSelect")
+                //.Upload("onUpload")
+                )
+             //.DropZone(".dropZoneElement")
+             .Validation(validation =>
+             {
+                 validation.AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" });
+                 validation.MinFileSize(500);
+             })
+            )
+        </div>
+        <br />
+        <div class="">
+            <div class="">
+                <input type="submit" value="Submit" class="btn btn-default" /> @Html.ActionLink("list of question", "index", "QuestionAnswer", new { @class = "btn pull-right" })
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+
+
+    //****************************************************************************************************************************
+
+
+    //place this code before the Scheduler init code, e.g. in header
+    (function ($, kendo) {
+        //Extending the Scheduler build in validator:
+        $.extend(true, kendo.ui.validator, {
+
+            rules: {
+                'cat': function (input) {
+                    return true;
+                }
+            },
+            messages: {
+                //custom rules messages
+                cat: function (input) { }
+            }
+        });
+        $("form").kendoValidator();
+    })(jQuery, kendo);
+    //end of custom validation code
+    //****************************************************************************************************************************
+            function onSelect(e) {
+                kendoConsole.log("Select :: " + getFileInfo(e));
+            }
+
+            function onUpload(e) {
+                kendoConsole.log("Upload :: " + getFileInfo(e));
+            }
+
+            function onSuccess(e) {
+                kendoConsole.log("Success (" + e.operation + ") :: " + getFileInfo(e));
+            }
+
+            function onError(e) {
+                kendoConsole.log("Error (" + e.operation + ") :: " + getFileInfo(e));
+            }
+
+            function onComplete(e) {
+                kendoConsole.log("Complete");
+            }
+
+            function onRemove(e) {
+                kendoConsole.log("Remove :: " + getFileInfo(e));
+            }
+
+            function onProgress(e) {
+                kendoConsole.log("Upload progress :: " + e.percentComplete + "% :: " + getFileInfo(e));
+            }
+
+            function getFileInfo(e) {
+                return $.map(e.files, function (file) {
+                    var info = file.name;
+
+                    // File size is not available in all browsers
+                    if (file.size > 0) {
+                        info += " (" + Math.ceil(file.size / 1024) + " KB)";
+                    }
+                    return info;
+                }).join(", ");
+            }
+</script>
+<script src=""></script>
+@*<div class="box">
+        <h4>Console log</h4>
+        <div class="console"></div>
+    </div>*@
+<script>
+            $(function () {
+                var template = kendo.template($("#template").html());
+                var initialFiles = [{ name: "1.jpg" }, { name: "2.jpg" }, { name: "3.jpg" }, { name: "4.jpg" }, { name: "5.jpg" }, { name: "6.jpg" }];
+
+                $("#products").html(kendo.render(template, initialFiles));
+            });
+
+            function onSuccess(e) {
+                if (e.operation == "Upload") {
+                    for (var i = 0; i < e.files.length; i++) {
+                        var file = e.files[i].rawFile;
+
+                        if (file) {
+                            var reader = new FileReader();
+                            reader.onloadend = function () {
+                                $("<div class='product'><img src=" + this.result + " /></div>").appendTo($("#products"));
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                }
+            }
+
+            function onCancel(e) {
+                kendoConsole.log("Cancel :: " + getFileInfo(e));
+            }
+            function onClear(e) {
+                kendoConsole.log("Clear");
+            }
+            function addExtensionClass(extension) {
+                switch (extension) {
+                    case '.jpg':
+                    case '.img':
+                    case '.png':
+                    case '.gif':
+                        return "img-file";
+                    case '.doc':
+                    case '.docx':
+                        return "doc-file";
+                    case '.xls':
+                    case '.xlsx':
+                        return "xls-file";
+                    case '.pdf':
+                        return "pdf-file";
+                    case '.zip':
+                    case '.rar':
+                        return "zip-file";
+                    default:
+                        return "default-file";
+                }
+            }
+
+</script>
+
+<style>
+    .file-icon {
+        display: inline-block;
+        float: left;
+        width: 48px;
+        height: 48px;
+        margin-left: 10px;
+        margin-top: 13.5px;
+    }
+    .img-file {
+        background-image: url(/content/web/upload/jpg.png);
+    }
+
+    .doc-file {
+        background-image: url(/content/web/upload/doc.png);
+    }
+
+    .pdf-file {
+        background-image: url(/content/web/upload/pdf.png);
+    }
+
+    .xls-file {
+        background-image: url(/content/web/upload/xls.png);
+    }
+
+    .zip-file {
+        background-image: url(/content/web/upload/zip.png);
+    }
+
+    .default-file {
+        background-image: url(/content/web/upload/default.png);
+    }
+
+    #example .file-heading {
+        font-family: Arial;
+        font-size: 1.1em;
+        display: inline-block;
+        float: left;
+        width: 60%;
+        margin: 0 0 0 20px;
+        height: 25px;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    #example .file-name-heading {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    #example .file-size-heading {
+        font-weight: normal;
+        font-style: italic;
+    }
+
+    li.k-file .file-wrapper .k-upload-action {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    li.k-file div.file-wrapper {
+        position: relative;
+        height: 75px;
+    }
+
+    hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+    }
+
+    div.userdate {
+        display:inline-block;
+        font-size: 13px;
+        text-align: right;
+        color: #dd5347;
+        margin-top: 0px;
+    }
+
+    div.edit {
+        font-size: 13px;
+        color: black;
+        margin-top: 10px;
+    }
+
+    div.answer {
+        color: gray;
+    }
+
+    header {
+        float: none !important;
+        width: auto !important;
+    }
+</style>
