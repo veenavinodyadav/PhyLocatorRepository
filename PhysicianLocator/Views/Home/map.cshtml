@@ -1,0 +1,109 @@
+﻿
+<div>
+    @Html.ActionLink("Back to Contact", "Contact", "Home")
+</div>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDbrYaIdf_tROZRYmPwBj9iV54pGeOjWs0&sensor=false"></script>
+
+<script language="javascript" type="text/javascript">
+
+    var map;
+    var geocoder;
+    function InitializeMap() {
+
+        var latlng = new google.maps.LatLng(-34.397, 150.644);
+        var myOptions =
+        {
+            zoom: 8,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            //disableDefaultUI: true
+        };
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+    }
+
+    function FindLocaiton() {
+        geocoder = new google.maps.Geocoder();
+        InitializeMap();
+
+        var param1var = getParameterByName("id");
+       
+        if (param1var == 1)
+        {
+            var address = "OpenEyes Software Solutions Pvt Ltd K10 Atlantis, Bldg 'A', #235 Sarabhai Road, Vadodara – 390023";
+        }
+        if (param1var == 2) {
+            var address = "  OpenEyes, 1629 K St NW #300  Washington DC 20006";
+        }
+        if (param1var == 3) {
+            var address = " OpenEyes  ,   46907 Wesleyan Ct , Sterling VA 20164";
+        }
+       
+            
+       
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+
+            }
+            else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+
+    }
+
+    function showAddress() {
+        geocoder = new google.maps.Geocoder();
+        initialize()
+        var address = "OpenEyes Software Solutions Pvt Ltd K10 Atlantis, Bldg 'A', #235 Sarabhai Road, Vadodara – 390023";
+
+        geocoder.getLatLng(
+                address,
+                function (point) {
+                    if (!point) {
+                        alert(address + " not found");
+                    }
+                    else {
+                        map.setCenter(point, 15);
+                        var marker = new GMarker(point);
+                        map.addOverlay(marker);
+                        marker.openInfoWindow(address);
+                    }
+                }
+            );
+    }
+
+    //function Button1_onclick() {
+    //   FindLocaiton();
+    //}
+    function getParameterByName(name, url) {
+        
+        if (!url) url = window.location.href;
+     
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var vars = url.split("\/");
+        pair = vars[5];
+        return pair;
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    window.onload = FindLocaiton;
+
+</script>
+
+<table>
+
+    <tr>
+        <td colspan="2">
+            <div id="map" style="width: 1150px; height: 600px"></div>
+        </td>
+    </tr>
+</table>

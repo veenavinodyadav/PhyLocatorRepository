@@ -1,0 +1,67 @@
+﻿@model PhysicianLocator.Models.ForgotUsernameViewModel
+
+@{
+    ViewBag.Title = "Forgot Username";
+}
+<div class="col-md-6 col-md-offset-3">
+    <div class="login-box contact-form">
+        <h2>@ViewBag.Title</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="">
+                    @Html.EditorFor(model => model.ForgotUsername_email, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.LabelFor(model => model.ForgotUsername_email, htmlAttributes: new { @class = "" })
+                    @Html.ValidationMessageFor(model => model.ForgotUsername_email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="text-center">
+                    <button class="btn" type="submit">Send Recovery Email</button>
+                </div>
+            </div>
+
+        }
+
+        <div class="text-center recent-links">
+            @Html.ActionLink("Already have Account", "Login", "AccountManagment")
+            <br />
+            @Html.ActionLink("Create a New Account?", "Register", "AccountManagment")
+
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    </div>
+</div>
+<script>
+    if (window.location.href === "http://localhost:30578/AccountManagment/ForgotUserName") {
+        $("body").addClass("bg-login");
+    }
+
+    $('input,textarea').val("");
+    $('.contact-form .form-group input,.contact-form .form-group textarea').focusout(function () {
+        var text_val = $(this).val();
+        if (text_val === "") {
+            $(this).removeClass('has-value');
+        } else {
+            $(this).addClass('has-value');
+        }
+    });
+</script>
+<style>
+    .required:before {
+        content: "*";
+        font-weight: bold;
+        font-size: large;
+        color: red;
+    }
+</style>

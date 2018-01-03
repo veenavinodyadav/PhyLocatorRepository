@@ -1,0 +1,43 @@
+﻿@model IEnumerable<PhysicianLocator.Models.QuestionAnswerViewModel>
+@Html.ActionLink("Ask a question", "AskQuestion", "QuestionAnswer")
+
+
+@using (Html.BeginForm("Index", "QuestionAnswer", FormMethod.Get))
+{
+    <br/>
+    
+    <div class="row">
+        <div class="col-md-5">
+            <b class="pull-left"> Search Option: </b> <input id="Textbox" name="Textbox" type="text" style="margin-left:10px;" class="form-control pull-left" />
+        </div>
+        <div class="col-md-7">
+            <input type="submit" name="submitbutton1" value="Search" class="btn btn-default" />
+            <input type="submit" name="submitbutton2" value="View All" class="btn btn-default" />
+        </div>
+    </div>
+ 
+}
+<br />
+<table class="table">
+  
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+            
+                <br/>
+                            
+              <p><font size="5">@Html.ActionLink(item.QuestionAnswerQuestion, "QuestionAndAnswer", "QuestionAnswer", new { id = item.QuestionAnswerId }, null)</font> </p>
+                <font size="2"  color="blue" > @Html.DisplayFor(modelItem => item.QuestionAnswerUserName) @Html.DisplayFor(modelItem => item.QuestionAnswerCreatedDate)</font>
+                <img src="@Url.Content(@ViewBag.contentpath)" style="width:160px;height:160px; background: #FFFFFF;
+    margin: auto;
+   -moz-border-radius: 60px;
+    border-radius: 100px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888; " />
+            </td>        
+        </tr>
+    }
+</table>
+
+

@@ -1,0 +1,121 @@
+﻿@*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>*@
+
+
+@model IEnumerable<PhysicianLocator.Models.QuestionAnswerViewModel>
+
+
+    @if (@ViewBag.Result != null)
+    {
+        if (Model.Any())
+        {
+           
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="question" id="easyPaginate">
+
+                            @foreach (var item in Model)
+                            {
+                                <ul>
+                                    <li>
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <img src="@Url.Content(item.QuestionAnswerDocumentPath)" style="width:60px; height:60px; background: #FFFFFF;
+                                                     margin: auto;
+                                                    -moz-border-radius: 60px;
+                                                     border-radius: 60px;
+                                                     float:left;
+                                                     margin-right:15px;
+                                                     border:1px solid #666;" />
+                                                <div class="title">@Html.ActionLink(item.QuestionAnswerQuestion, "QuestionAndAnswer", "QuestionAnswer", new { Id = @item.QuestionAnswerId }, null)</div>
+                                                <div class="date-time">@Html.DisplayFor(modelItem => item.QuestionAnswerUserName) @Html.DisplayFor(modelItem => item.date)</div>
+                                                <a href="@Url.Action("QuestionAndAnswer", "QuestionAnswer", new { id = item.QuestionAnswerId })" class="pull-right">
+                                                    <span class="fa fa-eye" aria-hidden="true"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+            using (Html.BeginForm("Index", "QuestionAnswer", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <input type="submit" name="submitbutton2" value="View All" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        }
+
+        else
+        {
+        <p>No data to show</p>
+            using (Html.BeginForm("Index", "QuestionAnswer", FormMethod.Get))
+            {
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <input type="submit" name="submitbutton2" value="View All" class="btn btn-default" />
+            </div>
+        </div>
+                        }
+                    }
+                }
+                else
+                {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="question" id="easyPaginate">
+
+                    @foreach (var item in Model)
+            {
+                        <ul>
+                            <li>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <img src="@Url.Content(item.QuestionAnswerDocumentPath)" style="width:60px; height:60px; background: #FFFFFF;
+                                            margin: auto;
+                                            -moz-border-radius: 60px;
+                                            border-radius: 60px;
+                                            float:left;
+                                            margin-right:15px;
+                                            border:1px solid #666;" />
+
+                                        <div class="title">@Html.ActionLink(item.QuestionAnswerQuestion, "QuestionAndAnswer", "QuestionAnswer", new { Id = @item.QuestionAnswerId }, null)</div>
+                                        <div class="date-time">@Html.DisplayFor(modelItem => item.QuestionAnswerUserName) @Html.DisplayFor(modelItem => item.date)</div>
+                                        <a href="@Url.Action("QuestionAndAnswer", "QuestionAnswer", new { id = item.QuestionAnswerId })" class="pull-right">
+                                            <span class="fa fa-eye" aria-hidden="true"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+<br />
+
+<script>
+    $(document).ready(function () {
+        $('#navbar').affix({
+            offset: {
+                top: 200
+            }
+        });
+        $("pre.html").snippet("html", { style: 'matlab' });
+        $("pre.css").snippet("css", { style: 'matlab' });
+        $("pre.javascript").snippet("javascript", { style: 'matlab' });
+        $('#easyPaginate').easyPaginate({
+            paginateElement: 'ul',
+            elementsPerPage: 5,
+            effect: 'climb'
+        });
+    });
+</script>
+
+
+
+

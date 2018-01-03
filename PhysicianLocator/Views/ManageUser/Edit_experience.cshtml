@@ -1,0 +1,115 @@
+﻿@model PhysicianLocator.Models.PhysicianExperienceViewModel
+
+@{
+    ViewBag.Title = "Edit_experience";
+    Layout = null;
+}
+
+<h2>Edit experience</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PhysicianExperienceId)
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReasonForLeaving, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReasonForLeaving, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReasonForLeaving, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JoinStartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().DatePicker()
+                          .Name("kendoJSD")
+                          .HtmlAttributes(new { placeholder = "Date of Joining", required = "Date of Joining", validationmessage = "Please pick date of joining", style = "width:280px" })
+                          .Value(Model.JoinStartDate)
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+                @Html.ValidationMessageFor(model => model.JoinStartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JoinEndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().DatePicker()
+                          .Name("kendoJED")
+                          .HtmlAttributes(new { placeholder = "Date of Leaving", required = "required", validationmessage = "Please pick date of leaving", style = "width:280px" })
+                          .Value(Model.JoinEndDate)
+                          .Format("dd-MM-yyyy")
+                          .Events(e => e
+                          .Open(@<text>
+                            function()
+                            {
+                            //Handle the open event inline.
+                            }
+                        </text>)
+
+                          .Change(@<text>
+                                function()
+                                {
+                                //Handle the change event inline.
+                                }
+                        </text>)
+                         ))
+                @Html.ValidationMessageFor(model => model.JoinEndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-default" />
+                <input type="button" value="Cancel" id="clsbutton" name="clsbutton" class="btn btn-default" , onclick="Closepopup()" />
+
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+            $(function () {
+                $("form").kendoValidator();
+            });
+
+            function Closepopup() {
+                $(".ui-dialog-titlebar-close").click();
+            }
+</script>
+
+

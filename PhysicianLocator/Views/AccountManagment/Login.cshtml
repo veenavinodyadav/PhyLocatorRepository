@@ -1,0 +1,72 @@
+﻿
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="login-box contact-form">
+
+            @model PhysicianLocator.Models.LoginViewModel
+
+            @{
+                ViewBag.Title = "Sign In";
+            }
+
+            <h2><i class="fa fa-sign-in"></i> @ViewBag.Title</h2>
+
+            @using (Html.BeginForm())
+            {       
+                @Html.AntiForgeryToken()
+                <div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.LoginUserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.LabelFor(model => model.LoginUserName, new { @class = "required" })
+                        @Html.ValidationMessageFor(model => model.LoginUserName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.LoginPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.LabelFor(model => model.LoginPassword, new { @class = "required" })
+                        @Html.ValidationMessageFor(model => model.LoginPassword, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <div class="text-center">
+                            <button class="btn" type="submit">Sign In</button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="text-center recent-links">
+                @Html.ActionLink("Forgot Password", "ForgotPassword", "AccountManagment")
+                <br />
+                @Html.ActionLink("Forgot Username", "ForgotUserName", "AccountManagment")
+                <br />
+                @Html.ActionLink("Create a New Account?", "FirstPage", "Home")
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+     .required:before {
+        content: "*";
+        font-weight: bold;
+        font-size: large;
+        color: red;
+    }
+</style>
+<script>
+    if (window.location.href === "http://localhost:30578/AccountManagment/Login") {
+        $("body").addClass("bg-login");
+    }
+
+    $('input,textarea').val("");
+    $('.contact-form .form-group input,.contact-form .form-group textarea').focusout(function () {
+        var text_val = $(this).val();
+        if (text_val === "") {
+            $(this).removeClass('has-value');
+        } else {
+            $(this).addClass('has-value');
+        }
+    });
+</script>
+
+@*<link href="@Url.Content("~/Content/style.css")" rel="stylesheet" />*@

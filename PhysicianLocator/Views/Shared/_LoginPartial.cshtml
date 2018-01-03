@@ -1,0 +1,121 @@
+﻿
+@{string name = (String)Session["UserName"];
+    var controller = @HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var action = @HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+
+@{int userid = Convert.ToInt32(Session["UserID"]);
+    string whoareyou = Convert.ToString(Session["WhoAreyou"]);}
+@if (@HttpContext.Current.Session["UserName"] != null)
+{
+
+    if (Session["UserName"] != null)
+    {
+               if (whoareyou == "Doctor")
+               {
+                       <div class="navbar-header pull-right position-relative">
+                       <a class="btn navbar-btn pull-right" style="margin-left: 5px;" href="#" data-toggle="dropdown"> Welcome @name<b></b> <span class="caret"></span></a>
+                       <ul class="dropdown-menu realign">
+                          <li>@Html.ActionLink("My Profile", "ViewUserProfile", "ManageUser", new { @id = userid }, null)</li>                      
+                          <li>@Html.ActionLink("logout", "LogOff", "AccountManagment")</li>                       
+                       </ul>          
+                       @{
+                         if (action != "AskQuestion")
+                         {
+                             <a class="ask-question pull-right" href="/QuestionAnswer/AskQuestion?Length=16">
+                               <i class="fa fa-pencil"></i>
+                                 Ask Question
+                             </a>
+                         }}
+                     </div>
+                    <div class="navbar-header pull-right position-relative">
+                        <a class="btn navbar-btn pull-right" style="margin-left: 5px;" href="#" data-toggle="dropdown"> Manage<b></b> <span class="caret"></span></a>
+                        <ul class="dropdown-menu realign">                           
+                            <li>@Html.ActionLink("Users", "Index", "GridUser")</li>
+                            <li>@Html.ActionLink("Hospitals", "About", "Home")</li>
+                            <li>@Html.ActionLink("Email Template", "Index", "ManageEmail")</li>
+                            <li>@Html.ActionLink("Merge Institute", "MergeInstitute", "Administrator")</li>
+                            <li>@Html.ActionLink("Demerge Institute", "DemergeInstitute", "Administrator")</li>
+                            <li>@Html.ActionLink("Country Lookup", "LkUpCountryView", "LookUp")</li>
+                            <li>@Html.ActionLink("Category Lookup", "LkUpCategoryView", "LookUp")</li>
+                        </ul>
+                    </div>
+                            if (controller == "QuestionAnswer" && action == "Index")
+                            {
+                        @Html.Partial("_homeSearch")
+                    }
+              } 
+          else
+              {
+                 <div class="navbar-header pull-right position-relative">
+                    <a class="btn navbar-btn pull-right" style="margin-left: 5px;" href="#" data-toggle="dropdown"> Welcome @name<b></b> <span class="caret"></span></a>
+                     <ul class="dropdown-menu realign">
+                                <li>@Html.ActionLink("My Profile", "PatientViewUserProfile", "ManageUser", new { @id = userid }, null)</li>                             
+                                <li>@Html.ActionLink("logout", "LogOff", "AccountManagment")</li>
+                     </ul>
+                            @{
+                                if (action != "AskQuestion")
+                                {
+                                    <a class="ask-question pull-right" href="/QuestionAnswer/AskQuestion?Length=16">
+                                        <i class="fa fa-pencil"></i>
+                                        Ask Question
+                                    </a>
+                                }}
+                        </div>
+                        <div class="navbar-header pull-right position-relative">
+                            <a class="btn navbar-btn pull-right" style="margin-left: 5px;" href="#" data-toggle="dropdown"> Manage<b></b> <span class="caret"></span></a>
+                            <ul class="dropdown-menu realign">
+                                <li>@Html.ActionLink("Users", "Index", "GridUser")</li>
+                                <li>@Html.ActionLink("Hospitals", "About", "Home")</li>
+                                <li>@Html.ActionLink("Email Template", "Index", "ManageEmail")</li>
+                                <li>@Html.ActionLink("Merge Institute", "MergeInstitute", "Administrator")</li>
+                                <li>@Html.ActionLink("Demerge Institute", "DemergeInstitute", "Administrator")</li>
+                                <li>@Html.ActionLink("Country Lookup", "LkUpCountryView", "LookUp")</li>
+                                <li>@Html.ActionLink("Category Lookup", "LkUpCategoryView", "LookUp")</li>
+                            </ul>
+                        </div>
+                                if (controller == "QuestionAnswer" && action == "Index")
+                                {
+                                    @Html.Partial("_homeSearch")
+                                        }
+
+               }
+                                }
+                                else
+                                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("LogOff", "LogOff", "AccountManagment")</li>
+                        <li>@Html.ActionLink("Sign Up", "FirstPage", "Home")</li>
+                    </ul>
+                    
+if (/*controller != "QuestionAnswer" &&*/ action != "AskQuestion")
+{
+    <a class="ask-question pull-right" href="/AccountManagment/Login?Length=16">
+        <i class="fa fa-pencil"></i>
+        Ask Question
+    </a>
+        }
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Sign In", "Login", "AccountManagment", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li class="bg-signup">@Html.ActionLink("Sign Up", "FirstPage", "Home")</li>
+    </ul>
+    <a class="ask-question pull-right" href="/AccountManagment/Login">
+        <i class="fa fa-pencil"></i>
+        Ask Question
+    </a>
+   
+if (controller == "Home" && action == "Index")
+{
+    @Html.Partial("_searchPartial")
+    }
+}
+
+<style>
+    .position-relative {
+        position: relative !important;
+    }
+</style>

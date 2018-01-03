@@ -1,0 +1,53 @@
+﻿@model IEnumerable<PhysicianLocator.Models.LookupCategoryViewModel>
+
+@{
+    ViewBag.Title = "LkUpCategoryView";
+    Layout = null;
+}
+
+<h2 class="martop0">
+    Add Category @*@Html.ActionLink("Add New Category", "LkUpCategoryCreate", "LookUp", htmlAttributes: new { @class = "btn pull-right" })</h2>*@
+
+    <a class="btn pull-right" href="/LookUp/LkUpCategoryCreate" title="Add New Category">
+        <i class="fa fa-plus"></i>
+        Add New Category
+    </a>
+    @*<a class="btn " href="/LookUp/LkUpDetailsCreate" title="Add  Details to Category">
+        <i class="fa fa-plus"></i>
+        Add  Details to Category
+    </a>*@
+</h2>
+<table class="table table-striped martop20">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>           
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            
+            @Html.ActionLink(item.Category, "LkUpDetailsView", "LookUp")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td class="text-right">
+            <a class="btn" href="/LookUp/LkUpCategoryEdit/@item.LookupCategoryId" title="Edit Category">
+                <i class="fa fa-pencil"></i>
+                @*Edit*@
+            </a>
+            <a class="btn" href="/LookUp/LkUpCategoryDelete/@item.LookupCategoryId"  onclick = "return confirm('Are you sure you want to delete this User?');"  title="Delete Category">
+                <i class="fa fa-trash"></i>
+                @*Delete*@
+            </a>
+          
+        </td>
+    </tr>
+}
+
+</table>

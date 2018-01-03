@@ -1,0 +1,228 @@
+﻿
+@model PhysicianLocator.Models.HospitalsViewModel
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+
+<h2> Edit our Profile</h2>
+@using (Html.BeginForm())
+
+{
+    @Html.AntiForgeryToken()
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Hospital</a></li>
+        @*<li><a data-toggle="tab" href="#menu1">Address</a></li>*@
+        
+    </ul>
+
+    <div class="form-horizontal">
+
+        <div class="tab-content">
+            @**************************Home tab****************************@
+            <div id="home" class="tab-pane fade in active">
+              @*  <h3 class="martop20">Hospital</h3>*@
+              
+            
+                @*Start*@
+
+                <div class="tablecontainer">
+                    <a class="popup btn btn-primary" href="/Hospital/InsertHospital/0" style="margin-bottom:20px; margin-top:20px;">Add  Education</a>
+                    <table id="myDatatable">
+                        <thead>
+                            <tr>
+                                <th>Hospital Name</th>
+                                <th>Number Of Beds</th>
+                                <th>Number Of Branches</th>
+                                <th>Number Of Doctors</th>
+                                <th>Specialities</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                @*End*@
+
+            </div>
+            @**************************Home end****************************@
+          
+     
+         
+        </div>
+    </div>
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <link href="~/Content/popModal.css" rel="stylesheet" />
+    <script src="~/Scripts/popModal.js"></script>
+    <script>
+
+        function deleteEdu(id) {
+            if (confirm('Are You Sure?')) {
+                return window.location = "https:/ManageHospital/Delete_education/" + id;
+            } else {
+                alert("You are not redirected.")
+            }
+        }
+
+        $(document).ready(function () {
+            var oTable = $('#myDatatable').DataTable({
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "ajax": {
+                    "url": '/Hospital/GetHospitallist',
+                    "type" : "get",
+                    "datatype" : "json"
+                },
+                "columns": [
+                    //{ "data": "HospitalName", "autoWidth": true },
+                   
+                    {
+                        "data": "HospitalName", "autoWidth": true, "render": function (data) {
+                            return '<a class="popup" href="/Hospital/Edit_hospital/' + data + '">' + data + ' </a>';
+                        }},
+                    { "data": "NumberOfBranches", "autoWidth": true },
+                    { "data": "NumberOfBeds", "autoWidth": true },
+                    { "data": "NumberOfDoctors", "autoWidth": true },
+                    { "data": "Specialities", "autoWidth": true },                 
+
+                    {
+                        "data": "HospitalId", "width": "50px", "render": function (data) {
+                            return '<a class="popup" href="/Hospital/Edit_hospital/' + data + '">Edit </a>';
+                    }
+                    },
+                    {
+                        "data": "HospitalId", "width": "50px", "render": function (data) {
+                            return '<a class="popup" href="/Hospital/Delete_hospital/' + data + '">Delete</a>';
+                            return '<a class="delete" href="javascript:void(0)" onClick="deleteEdu('+data+')">Delete</a>';
+                    }
+                    }
+                ]
+            })
+
+            $('.tablecontainer').on('click', 'a.popup', function (e) {
+                e.preventDefault();
+                OpenPopup($(this).attr('href'));
+            })
+
+            function OpenPopup(pageUrl) {
+                var $pageContent = $('<div/>');
+                $pageContent.load(pageUrl, function () {
+                    $('#popupForm', $pageContent).removeData('validator');
+                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                    $.validator.unobtrusive.parse('form');
+                });
+
+                $dialog = $('<div class="popupWindow" style="overflow:auto height:auto"></div>')
+                          .html($pageContent)
+                          .dialog({
+                              draggable : false,
+                              autoOpen : false,
+                              resizable : false,
+                              model : true,
+                              title:'Education',
+                              height : 550,
+                              width : 600,
+                              close: function () {
+                                  $dialog.dialog('destroy').remove();
+                              }
+                          })
+
+                $('.popupWindow').on('submit', '#popupForm', function (e) {
+                    var url = $('#popupForm')[0].action;
+                    $.ajax({
+                        type : "POST",
+                        url : url,
+                        data: $('#popupForm').serialize(),
+                        success: function (data) {
+                            if (data.status) {
+                                $dialog.dialog('close');
+                                oTable.ajax.reload();
+                            }
+                        }
+                    })
+
+                    e.preventDefault();
+                })
+
+                $dialog.dialog('open');
+            }
+        })
+
+        //for image change
+
+        //function uploadStarted() {
+
+        //    $get("imgDisplay").style.display = "none";
+        //}
+    </script>
+}
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 99999; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 2px;
+        border: 1px solid #888;
+        width: 100%; /* Could be more or less, depending on screen size */
+        padding-left: 5px !important;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .required:after {
+        content: "*";
+        font-weight: bold;
+        font-size: large;
+        color: red;
+    }
+</style>
