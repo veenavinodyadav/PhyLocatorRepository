@@ -377,7 +377,6 @@ namespace PhysicianLocator.Controllers
             }
             return RedirectToAction("ViewUserProfile", "ManageUser", new { @id = id });
         }
-
         public ActionResult PatientEditUserProfile(int id)
         {
             int userid = Convert.ToInt32(Session["UserID"]);
@@ -915,13 +914,18 @@ namespace PhysicianLocator.Controllers
                 using (LocatorContext context = new LocatorContext())
                 {
                     var isactive = true;
-
+              
                     var tempkendoInstitute = Request["kendoInstitute"];
                     string result = Convert.ToString(tempkendoInstitute);
                     var tempkendoStartDate = Request["kendoStartDate"];
+                    string date = Convert.ToString(tempkendoStartDate);
+                    //date=  date.Substring(0, 4);
+                    string format = "1-1-";
+                       format +=string.Format(" {0}", date);
+                    tempkendoStartDate = format;
                     DateTime kendoStartDate = Convert.ToDateTime(tempkendoStartDate);
                     model.StartDate = kendoStartDate;
-                    model.EndDate = kendoStartDate;
+                  
                     model.IsActive = isactive;
                     int lastUserId = context.DBContext_register.Max(item => item.UserId);
                     model.UserId = userid;
@@ -974,8 +978,7 @@ namespace PhysicianLocator.Controllers
                         UserId = model.UserId,
                         CurrentEducationInstituteId = model.CurrentEducationInstituteId,
                         Degree = model.Degree,
-                        StartDate = model.StartDate,
-                        EndDate = model.EndDate,
+                        StartDate = model.StartDate,                        
                         IsActive = model.IsActive,
                         OldEducationInstituteId = model.OldEducationInstituteId,
                         IsDeleted = model.IsDeleted,
@@ -1009,7 +1012,7 @@ namespace PhysicianLocator.Controllers
                      InstituteName = ins.InstituteName,
                      Degree = edu.Degree,
                      StartDate = edu.StartDate,
-                     EndDate = edu.EndDate
+                    
                  };
                 {
                     questionList = meds.ToList();
@@ -1048,14 +1051,17 @@ namespace PhysicianLocator.Controllers
                     var tempkendoInstitute = Request["kendoInstitute"];
                     string result = Convert.ToString(tempkendoInstitute);
                     var tempkendoStartDate = Request["kendoStartDate"];
+                    
+                    string date = Convert.ToString(tempkendoStartDate);
+                    //date=  date.Substring(0, 4);
+                    string format = "1-1-";
+                    format += string.Format(" {0}", date);
+                    tempkendoStartDate = format;
                     DateTime kendoStartDate = Convert.ToDateTime(tempkendoStartDate);
                     model.StartDate = kendoStartDate;
-                    model.EndDate = kendoStartDate;
                     model.IsActive = isactive;
-
                     int lastUserId = context.DBContext_register.Max(item => item.UserId);
                     model.UserId = userid;
-
                     EducationInstitutesViewModel education = new EducationInstitutesViewModel();
                     education.InstituteName = tempkendoInstitute;
                     var institute = context.DBContext_educationinstitute.Where(u => u.InstituteName == result).FirstOrDefault();
@@ -1110,7 +1116,7 @@ namespace PhysicianLocator.Controllers
                         phy_query.CurrentEducationInstituteId = model.CurrentEducationInstituteId;
                         phy_query.Degree = model.Degree;
                         phy_query.StartDate = model.StartDate;
-                        phy_query.EndDate = model.EndDate;
+                    
                         phy_query.CreatedBy = model.CreatedBy;
                         phy_query.LastModifiedOn = DateTime.Now;
                         try
@@ -1281,10 +1287,39 @@ namespace PhysicianLocator.Controllers
         [CheckSessionOut]
         public ActionResult Edit_experience(int id)
         {
+            string markers = "[";
+
+            string conString = ConfigurationManager.ConnectionStrings["LocatorContext1"].ConnectionString;
+            SqlCommand cmd = new SqlCommand("SELECT * FROM tblHospitals");
+            var locationService = new GoogleLocationService();
+
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                cmd.Connection = con;
+                con.Open();
+
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    while (sdr.Read())
+                    {
+
+                        markers += string.Format(" \"{0}\",", sdr["HospitalName"]);
+
+                        //markers += ",";
+
+                    }
+                }
+                con.Close();
+            }
+            markers += "];";
+            ViewBag.Markers = markers;
 
             using (LocatorContext dc = new LocatorContext())
             {
+               
                 PhysicianExperienceViewModel experience_query = (from experience in context.DBContext_experience where experience.PhysicianExperienceId == id select experience).SingleOrDefault();
+                HospitalsViewModel hospital_query = (from hospital in context.DBContext_hospital where hospital.HospitalId == experience_query.HospitalId select hospital).SingleOrDefault();
+                ViewBag.Message = hospital_query.HospitalName;
                 return View(experience_query);
             }
         }

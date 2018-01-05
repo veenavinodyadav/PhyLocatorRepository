@@ -4,13 +4,10 @@
         <div class="login-box contact-form">
 
             @model PhysicianLocator.Models.LoginViewModel
-
             @{
                 ViewBag.Title = "Sign In";
             }
-
             <h2><i class="fa fa-sign-in"></i> @ViewBag.Title</h2>
-
             @using (Html.BeginForm())
             {       
                 @Html.AntiForgeryToken()

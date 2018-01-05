@@ -22,9 +22,6 @@ namespace PhysicianLocator.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yy}")]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "This field can not be empty.")]
-        [Display(Name = " End Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yy}")]
-        public DateTime EndDate { get; set; }
+       
     }
 }

@@ -186,7 +186,7 @@ namespace PhysicianLocator.Models
         public string Street1 { get; set; }
 
         //Street2
-        [Required]
+        
         [Display(Name = "Street 2")]
         [StringLength(100, ErrorMessage = "The street2 must be less than {1} characters long.")]
         public string Street2 { get; set; }
@@ -552,17 +552,14 @@ namespace PhysicianLocator.Models
         //Degree
 
         [Required(ErrorMessage = "Please enter Degree.")]
-        [StringLength(50, ErrorMessage = "The {0} must be less than {1} and greater than {2} characters long.", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "The {0} must be less than {1} and greater than {2} characters long.", MinimumLength = 2)]
         [Display(Name = "Degree ")]
         public string Degree { get; set; }
         //StartDate
         [Required(ErrorMessage = "This field can not be empty.")]
         [Display(Name = "Year of Passing")]
         public DateTime StartDate { get; set; }
-        //EndDate
-        [Required(ErrorMessage = "This field can not be empty.")]
-        [Display(Name = "End Date")]
-        public DateTime EndDate { get; set; }
+       
         public int OldEducationInstituteId { get; set; }
 
         //IsActive
@@ -610,6 +607,7 @@ namespace PhysicianLocator.Models
 
         //RoleId
         [Required]
+        [Display(Name = "Hospital Name")]
         public int HospitalId { get; set; }
 
         [Display(Name = "Current Working Hospital ")]
@@ -628,7 +626,7 @@ namespace PhysicianLocator.Models
         public DateTime JoinEndDate { get; set; }
 
         [StringLength(150, ErrorMessage = "The {0} must be less than {1} characters long.")]
-        [Display(Name = "Reason for Leaving password")]
+        [Display(Name = "Leave reason")]
         public string ReasonForLeaving { get; set; }
 
        

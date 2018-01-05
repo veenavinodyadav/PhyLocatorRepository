@@ -12,7 +12,7 @@ namespace PhysicianLocator.DAL
         {
             Database.SetInitializer<LocatorContext>(new CreateDatabaseIfNotExists<LocatorContext>());
         }
-        //public DbSet<RoleViewModel> DBContext_role { get; set; }
+   
         public DbSet<RegistrationViewModel> DBContext_register { get; set; }
         public DbSet<LookupCategoryViewModel> DBContext_lookupcategory { get; set; }
         public DbSet<LookupDetailViewModel> DBContext_lookupdetail { get; set; }

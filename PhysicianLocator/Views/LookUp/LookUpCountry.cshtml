@@ -73,7 +73,8 @@
                     "datatype" : "json"
                 },
                 "columns": [
-                    { "data": "CountryName", "autoWidth": true },
+                        { "data": "CountryName", "autoWidth": true },
+                   
                     {
                         "data": "CountryId", "autoWidth": true, "render": function (data) {
                             return '<a  class="popup btn" href="/LookUp/LkUpCountryEdit/' + data + '"><i class="fa fa-pencil"></i></a> <a class="popup btn" href="/LookUp/LkUpCountryDelete/' + data + '">  <i class="fa fa-trash"></i></a>';

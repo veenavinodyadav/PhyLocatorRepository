@@ -462,6 +462,9 @@
     <Content Include="Views\LookUp\LookUpCategory.cshtml" />
     <Content Include="Views\LookUp\LkUpCategoryDelete.cshtml" />
     <Content Include="Views\Administrator\ManageInstitute.cshtml" />
+    <Content Include="Views\Administrator\InstituteCreate.cshtml" />
+    <Content Include="Views\Administrator\InstituteEdit.cshtml" />
+    <Content Include="Views\Administrator\InstituteDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

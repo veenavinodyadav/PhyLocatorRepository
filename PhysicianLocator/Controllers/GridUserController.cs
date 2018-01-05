@@ -151,32 +151,7 @@ namespace PhysicianLocator.Controllers
 
             return View();
         }
-        public ActionResult Education_Read(int? id)
-        {
-            DataSourceRequest request = new DataSourceRequest();
-            List<EducationGridModel> questionList = new List<EducationGridModel>();
-            IQueryable<PhysicianEducationViewModel> tblregistrations = db.DBContext_physicianeducation;
-            DataSourceResult result = new DataSourceResult();
-            LocatorContext context = new LocatorContext();
-            {
-                var meds = from edu in context.DBContext_physicianeducation
-                           join ins in context.DBContext_educationinstitute on edu.CurrentEducationInstituteId equals ins.EducationInstituteId
-                           where (edu.UserId == id && edu.IsActive && !edu.IsDeleted)
-                           select new EducationGridModel
-                           {
-                               EduId = edu.PhysicianEducationId,
-                               InstituteName = ins.InstituteName,
-                               Degree = edu.Degree,
-                               StartDate = edu.StartDate,
-                               EndDate = edu.EndDate
-                           };
-                {
-                    questionList = meds.ToList();
-                }
-                result = questionList.ToDataSourceResult(request);
-                return Json(result);
-            }
-        }
+  
         public ActionResult Health_Read(int? id)
         {
             DataSourceRequest request = new DataSourceRequest();
@@ -230,109 +205,7 @@ namespace PhysicianLocator.Controllers
                 return Json(result);
             }
         }
-        public ActionResult Edit_education([DataSourceRequest]DataSourceRequest request, EducationGridModel educationgridmodel)
-        {
-            LocatorContext context = new LocatorContext();
-            var tempkendoInstitute3 = Request["kendoInstitute"];
-            var tempkendoInstitute = educationgridmodel.InstituteName;
-            var isactive = true;
-
-            //EDUCATIONAL INSTITUTE----------------------------------
-
-            string result = Convert.ToString(tempkendoInstitute);
-            EducationInstitutesViewModel education = new EducationInstitutesViewModel();
-            education.InstituteName = tempkendoInstitute;
-            var institute = context.DBContext_educationinstitute.Where(u => u.InstituteName == result).FirstOrDefault();
-            int lastcurrentAssignId = context.DBContext_educationinstitute.Max(item => item.EducationInstituteId);
-            education.CurrentAssignId = lastcurrentAssignId + 1;
-            education.IsActive = isactive;
-            if (institute == null)
-            {
-
-                var record_educationinstitute = new EducationInstitutesViewModel()
-                {
-                    InstituteName = education.InstituteName,
-                    ParentEducationInstituteId = 0,
-                    IsActive = education.IsActive,
-                    CurrentAssignId = education.CurrentAssignId,
-                    IsDeleted = false,
-                    CreatedBy = 0,
-                    CreatedOn = DateTime.Now,
-                    LastModifiedBy = 0,
-                    LastModifiedOn = DateTime.Now,
-
-                };
-                context.DBContext_educationinstitute.Add(education);
-                context.SaveChanges();
-                tempkendoInstitute = educationgridmodel.InstituteName;
-            }
-            result = Convert.ToString(tempkendoInstitute);
-            var currentassign = from educationinstitute in context.DBContext_educationinstitute
-                                where (educationinstitute.InstituteName.Equals(result))
-                                select new
-                                {
-                                    educationinstitute.CurrentAssignId
-                                };
-            educationgridmodel.CurrentEducationInstituteId = Convert.ToInt32(currentassign.FirstOrDefault().CurrentAssignId);
-            var tempkendoStartDate = Request["SD"];
-            DateTime SD = Convert.ToDateTime(tempkendoStartDate);
-            educationgridmodel.StartDate = SD;
-
-            var tempkendoEndDate = Request["ED"];
-            DateTime ED = Convert.ToDateTime(tempkendoEndDate);
-            educationgridmodel.EndDate = ED;
-
-            var user = db.DBContext_physicianeducation.Where(u => u.UserId == educationgridmodel.EduId).FirstOrDefault();
-
-
-            //if (ModelState.IsValid)
-            //{
-            //if (user != null)
-            //{
-            //   var entity = new EducationGridModel
-            //    {
-            //        EduId = educationgridmodel.EduId,
-            //        CurrentEducationInstituteId = educationgridmodel.CurrentEducationInstituteId,
-            //        Degree = educationgridmodel.Degree,                    
-            //        StartDate = educationgridmodel.StartDate,
-            //        EndDate = educationgridmodel.EndDate,
-
-            //    };
-
-            ////db.DBContext_physicianeducation.Attach(educationgridmodel);
-            //db.Entry(educationgridmodel).State = EntityState.Modified;
-            ////context.DBContext_address.Add(model.AddressViewModel1);
-            ////db.DBContext_address.Add(educationgridmodel);
-            //db.SaveChanges();
-            //}
-
-            var id = educationgridmodel.EduId;
-            PhysicianEducationViewModel phy_query = (from physicaineducation in context.DBContext_physicianeducation where physicaineducation.PhysicianEducationId == id select physicaineducation).SingleOrDefault();
-            if (phy_query != null)
-            {
-                phy_query.CurrentEducationInstituteId = phy_query.OldEducationInstituteId;
-                phy_query.CurrentEducationInstituteId = educationgridmodel.CurrentEducationInstituteId;
-                phy_query.Degree = educationgridmodel.Degree;
-                phy_query.StartDate = educationgridmodel.StartDate;
-                phy_query.EndDate = educationgridmodel.EndDate;
-                try
-                {
-                    context.SaveChanges();
-                    TempData["Data"] = "Demerged Successful";
-                    return View("../Shared/Error");
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex.ToString());
-                }
-
-            }
-            //}
-            ModelState.Clear();
-            //return Json(ModelState.ToDataSourceResult());
-            return Json(educationgridmodel);
-            //return Json(new[] { registrationViewModel }.ToDataSourceResult(request, ModelState));
-        }
+    
         public ActionResult Edit_experience([DataSourceRequest]DataSourceRequest request, ExperienceGridModel experiencegridmodel)
         {
             LocatorContext context = new LocatorContext();
@@ -423,18 +296,7 @@ namespace PhysicianLocator.Controllers
             }
             return Json(healthgridmodel);
         }
-        public ActionResult Delete_education([DataSourceRequest]DataSourceRequest request, EducationGridModel model)
-        {
-            LocatorContext context = new LocatorContext();
-            var id = model.EduId;
-            var deleteOrderDetails = context.DBContext_physicianeducation.Where(a => a.PhysicianEducationId == id);
-            if (deleteOrderDetails != null)
-            {
-                context.DBContext_physicianeducation.RemoveRange(deleteOrderDetails);
-                context.SaveChanges();
-            }
-            return Json(model);
-        }
+      
         public ActionResult Delete_experience([DataSourceRequest]DataSourceRequest request, ExperienceGridModel model)
         {
             LocatorContext context = new LocatorContext();

@@ -16,9 +16,8 @@
 <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
 <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
 
-<h2> Edit our Profile</h2>
+<h2> Edit  Profile</h2>
 @using (Html.BeginForm("EditUserProfile", "ManageUser", FormMethod.Post, new { enctype = "multipart/form-data" }))
-
 {
     @Html.AntiForgeryToken()
 
@@ -42,10 +41,10 @@
                             <div class="col-md-12">
                                 <div class="avtar">
                                     <img src="@Url.Content(@ViewBag.contentpath)" style="width:100%; background: #999;
-                             margin: auto;
-                             -moz-border-radius: 50%;
-                             border-radius: 50%;
-                             padding: 2px;" />
+                                         margin: auto;
+                                        -moz-border-radius: 50%;
+                                         border-radius: 50%;
+                                         padding: 2px;" />
                                     <span class="avtar-in"><i class="fa fa-camera"></i></span>
                                     <input type="file" value="Change Photo" name="uploadFile" id="uploadFile" accept=".png,.jpg,.jpeg,.gif,.tif" />
                                 </div>
@@ -57,7 +56,7 @@
                             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2 required" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control martop0" } })
-                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                @*@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })*@
                             </div>
                         </div>
                         <div class="form-group">
@@ -67,33 +66,17 @@
                                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div id="example" class="form-group">
                             @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2 required" })
                             <div class="col-md-10">
                                 @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
                                 @(Html.Kendo().DatePicker()
                                           .Value(Model.DateOfBirth)
                                           .Name("kendoDOB")
-                                          .HtmlAttributes(new { style = "width: 280px" })
-                                          .Max("1/1/1994")
-                                          .Min("1/1/1957")
+                                          .HtmlAttributes(new { placeholder = "Date of Birth", required = "required", validationmessage = "Enter valid date of birth", style = "width:280px" })
+                                          .Footer(false)
                                           .Format("dd-MM-yyyy")
-                                          .Events(e => e
-                                          .Open(@<text>
-                                function()
-                                {
-                                //Handle the open event inline.
-                                }
-                                        </text>)
-
-                                         .Change(@<text>
-                                function()
-                                {
-                                //Handle the change event inline.
-                                }
-                                        </text>)
-                                                ))
-
+                                         )
                             </div>
                         </div>
                         <div class="form-group">
@@ -109,7 +92,7 @@
                             var yourValue = Request.Form["YourValue"];
                         }
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="col-md-offset-2">
+                        <div class="col-md-offset-2" style="margin-left: 73.666667%; ">
                             <input type="submit" value="Update" class="btn btn-default" />
                             @Html.ActionLink("Go back to profile", "ViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
 
@@ -118,7 +101,6 @@
                        
                         </div>
                         
-
                     </div>
         @**************************Home end****************************@
                 <div id="menu1" class="tab-pane fade">
@@ -134,7 +116,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.AddressViewModel1.Street2, htmlAttributes: new { @class = "control-label col-md-3 required" })
+                            @Html.LabelFor(model => model.AddressViewModel1.Street2, htmlAttributes: new { @class = "control-label col-md-3 " })
                             <div class="col-md-9">
                                 @Html.EditorFor(model => model.AddressViewModel1.Street2, new { htmlAttributes = new { @class = "form-control martop0", @placeholder = "Street 2", id = "address1Street2", name = "address1Street2" } })
                                 @Html.ValidationMessageFor(model => model.AddressViewModel1.Street2, "", new { @class = "text-danger" })
@@ -142,7 +124,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.AddressViewModel1.Street3, htmlAttributes: new { @class = "control-label col-md-3 required" })
+                            @Html.LabelFor(model => model.AddressViewModel1.Street3, htmlAttributes: new { @class = "control-label col-md-3 " })
                             <div class="col-md-9">
                                 @Html.EditorFor(model => model.AddressViewModel1.Street3, new { htmlAttributes = new { @class = "form-control martop0", @placeholder = "Street 3", id = "address1Street3", name = "address1Street3" } })
                                 @Html.ValidationMessageFor(model => model.AddressViewModel1.Street3, "", new { @class = "text-danger" })
@@ -220,7 +202,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.AddressViewModel2.Street2, htmlAttributes: new { @class = "control-label col-md-3 required" })
+                            @Html.LabelFor(model => model.AddressViewModel2.Street2, htmlAttributes: new { @class = "control-label col-md-3 " })
                             <div class="col-md-9">
                                 @Html.EditorFor(model => model.AddressViewModel2.Street2, new { htmlAttributes = new { @class = "form-control martop0", @placeholder = "Street 2", id = "address2Street2", name = "address2Street2" } })
                                 @Html.ValidationMessageFor(model => model.AddressViewModel2.Street2, "", new { @class = "text-danger" })
@@ -228,7 +210,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.AddressViewModel2.Street3, htmlAttributes: new { @class = "control-label col-md-3 required" })
+                            @Html.LabelFor(model => model.AddressViewModel2.Street3, htmlAttributes: new { @class = "control-label col-md-3 " })
                             <div class="col-md-9">
                                 @Html.EditorFor(model => model.AddressViewModel2.Street3, new { htmlAttributes = new { @class = "form-control martop0", @placeholder = "Street 3", id = "address2Street3", name = "address2Street3" } })
                                 @Html.ValidationMessageFor(model => model.AddressViewModel2.Street3, "", new { @class = "text-danger" })
@@ -298,7 +280,7 @@
                         </div>
 
                     </div>
-                    <div class="col-md-offset-2">
+                    <div class="col-md-offset-2" style="margin-left: 80.666667%; ">
                         <input type="submit" value="Update" class="btn btn-default" />
                         @Html.ActionLink("Go back to profile", "ViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
 
@@ -340,6 +322,7 @@
                     @*Start*@
 
                     <div class="tablecontainer">
+                        
                         <a class="popup btn btn-primary" href="/ManageUser/Save_education/0" style="margin-bottom:20px; margin-top:20px;">Add  Education</a>
                         <table id="myDatatable">
                             <thead>
@@ -356,7 +339,7 @@
                     @*End*@
                     
                     <div class="col-md-offset-2" style="margin-top:10px;">                       
-                        <input type="submit" value="Update" class="btn btn-default" />
+                        
                         @Html.ActionLink("Go back to profile", "ViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
 
 
@@ -384,7 +367,7 @@
                     @*End*@
 
                     <div class="col-md-offset-2" style="margin-top:10px;">
-                        <input type="submit" value="Update" class="btn btn-default" />
+                      
                         @Html.ActionLink("Go back to profile", "ViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
                     </div>
                 </div>
@@ -408,8 +391,8 @@
                         </table>
                     </div>
                     @*End*@
-                    <div class="col-md-offset-2" style="margin-top:10px;">
-                        <input type="submit" value="Update" class="btn btn-default" />                     
+                    <div class="col-md-offset-2" style="margin-top:10px;    margin-left: 73.666667%; ">
+                                            
                         @Html.ActionLink("Go back to profile", "ViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
                     </div>
 
@@ -424,7 +407,52 @@
     <link href="~/Content/popModal.css" rel="stylesheet" />
     <script src="~/Scripts/popModal.js"></script>
     <script>
+        $(document).ready(function () {
 
+            //$("#kendoDOB").kendoDatePicker(
+            //    {
+            //        footer: false,
+            //        Format: "dd-MM-yyyy"
+            //    });
+
+            $("#kendoDOB").bind("focus", function () {
+                $(this).data("kendoDatePicker").open();
+            });
+        });
+
+        //$("form").kendoValidator({
+
+        //    rules: {
+        //        'kendoDOB': function (input) {
+        //            var date = $("#kendoDOB").val()
+        //            if (date != "") {
+                   
+        //                var current = new Date();
+        //                var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'yyyy');
+        //                var currentyear = current.getFullYear();
+        //                var calculatedyaer = currentyear - kendoyear;
+             
+        //                if (calculatedyaer <= 21) {
+                           
+        //                    return false;
+        //                }
+        //            }
+
+        //            return true;
+        //        }
+        //    },
+        //    messages: {
+        //        'kendoDOB': function (input) {
+        //            required: "Degree is mandatory!"
+        //            //if (date != "") {
+        //            //alert("ddddddd");
+        //            return input.attr("ggggggg");
+        //            //}
+        //        }
+
+        //    }
+
+        //});
         function deleteEdu(id) {
             if (confirm('Are You Sure?')) {
                 return window.location = "https:/ManageUser/Delete_education/" + id;
@@ -489,7 +517,7 @@
                               autoOpen : false,
                               resizable : false,
                               model: true,
-                             
+                              
                               height : 550,
                               width : 600,
                               close: function () {
@@ -542,7 +570,7 @@
                             var d = new Date(parseInt(data.substr(6)));
                             var result = "";
 
-                            return (+d.getUTCMonth() + '-' + d.getUTCDay() + '-' + d.getFullYear());
+                            return (+d.getUTCDay() + '-' + d.getUTCMonth() + '-' + d.getFullYear());
                         }
                     },
                     {
@@ -551,14 +579,13 @@
                             var d = new Date(parseInt(data.substr(6)));
                             var result = "";
 
-                            return (+d.getUTCMonth() + '-' + d.getUTCDay() + '-' + d.getFullYear());
+                            return (+d.getUTCDay() + '-' + d.getUTCMonth() + '-' + d.getFullYear());
                         }
                     },
                     {
                         "data": "ExpId", "autoWidth": true, "render": function (data) {
-                            return '<a  class="popup btn" href="/ManageUser/Edit_education/' + data + '"><i class="fa fa-pencil"></i></a> <a class="popup btn" href="/ManageUser/Delete_education/' + data + '">  <i class="fa fa-trash"></i></a>';
-
-                            return '<a class="popup btn" href="/ManageUser/Edit_experience/' + data + '"><i class="fa fa-pencil"></a> <a class="popup btn" href="/ManageUser/Delete_experience/' + data + '"><i class="fa fa-trash"></a>';
+                            
+                            return '<a class="popup btn" href="/ManageUser/Edit_experience/' + data + '"><i class="fa fa-pencil"></i></a> <a class="popup btn" href="/ManageUser/Delete_experience/' + data + '"><i class="fa fa-trash"></i></a>';
                        }
                     },
                     
@@ -719,10 +746,42 @@
         function uploadStarted() {
             $get("imgDisplay").style.display = "none";
         }
+        $("#example").kendoValidator({
+            rules: {
+                dateValidation: function (element) {
+                    var value = $("#kendoDOB").val();
 
-        $(function () {
-            $("form").kendoValidator();
+                    var date = kendo.parseDate(value);
+                    var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'dd-MM-yyyy');
+                    //alert(kendoyear);
+                    if (!kendoyear) {
+                        return false;
+                    }
+
+                    return true;
+                },
+                minDate: function (element) {
+                    var value = $(element).val();
+                    var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'yyyy');
+                    //var date = kendo.parseDate(value)
+                    var current = new Date();
+                    var currentyear = current.getFullYear();
+                    //alert(currentyear);
+                    var calculatedyaer = currentyear - kendoyear;
+                    if (calculatedyaer <= 21) {
+                        //alert(calculatedyaer);
+
+                        return false;
+                    }
+                    return true;
+                }
+            },
+            messages: {
+                dateValidation: "You must enter a date",
+                minDate: "The age should be greater than 21"
+            }
         });
+   
     </script>
 
 }

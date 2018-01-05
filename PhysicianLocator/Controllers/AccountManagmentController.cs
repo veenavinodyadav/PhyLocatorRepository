@@ -27,7 +27,8 @@ namespace PhysicianLocator.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Register(RegistrationViewModel model)
-        {            
+        {
+
             string pwd = "";
             var roleId = 3;
             var isactive = true;
@@ -37,7 +38,7 @@ namespace PhysicianLocator.Controllers
             activationCode = commonFunction.MakePassword(10);
             model.ActivationCode = activationCode;
             int a = model.GenderId;
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
                 using (LocatorContext context = new LocatorContext())
                 {
@@ -166,7 +167,6 @@ namespace PhysicianLocator.Controllers
             ModelState.Clear();
             return View(model);
         }
-
         public ActionResult DoctorRegistration()
         {
             return View();
@@ -187,7 +187,7 @@ namespace PhysicianLocator.Controllers
             int a = model.GenderId;
             var whoAreYou = "Doctor";
             model.WhoAreYou = whoAreYou;
-            if (ModelState.IsValid)
+            
             {
                 using (LocatorContext context = new LocatorContext())
                 {
@@ -360,7 +360,6 @@ namespace PhysicianLocator.Controllers
             var northwind = new LocatorContext();
             return Json(northwind.DBContext_educationinstitute.Select(c => new { InstitueName = c.InstituteName, IsActive = c.IsActive }).Where(u => u.IsActive), JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult DisableInstitueName()
         {
             var northwind = new LocatorContext();
@@ -426,7 +425,7 @@ namespace PhysicianLocator.Controllers
                                 {
                                     Session["UserName"] = user.UserName.ToString();
                                     Session["UserID"] = user.UserId.ToString();
-                                    Session["WhoAreYou"] = user.WhoAreYou.ToString();
+                                    Session["role"] = user.RoleId.ToString();
                                     // System.Web.HttpContext.Current.Session["UserName"].ToString();
                                 }                            
                                 return RedirectToAction("Index", "QuestionAnswer");

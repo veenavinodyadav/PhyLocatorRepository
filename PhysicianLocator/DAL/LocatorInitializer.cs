@@ -79,7 +79,7 @@ namespace PhysicianLocator.DAL
                 FirstName = "PatientFirstname",
                 LastName = "PatientLastname",
                 GenderId = 1,
-                DateOfBirth = DateTime.Parse("2005-09-01"),
+                DateOfBirth = DateTime.Parse("1990-09-01"),
                 CellPhone = "9860085688",
                 EmailAddress = "Patient@gmail.com",
                 CanLogin=1,
@@ -95,13 +95,13 @@ namespace PhysicianLocator.DAL
                 new RegistrationViewModel
                 {
 
-                RoleId=1,
+                RoleId=2,
                 UserName="DoctorUser",
                 Password = commonfunction.Encrypt(password),//dummy@123
                 FirstName = "DoctorFirstname",
                 LastName = "DoctorLastname",
                 GenderId = 1,
-                DateOfBirth = DateTime.Parse("2005-09-01"),
+                DateOfBirth = DateTime.Parse("1990-09-01"),
                 CellPhone = "9921007251",
                 EmailAddress = "Doctor@gmail.com",
                 IMAI="1234567890",
@@ -112,8 +112,29 @@ namespace PhysicianLocator.DAL
                 Ref2_Email="ref2@gmail.com",
                 Ref2_Name="referencetwo",
                 WhoAreYou="Doctor",
+                CanLogin=1,              
+                IsActive=true,
+                IsDeleted=false,
+                CreatedBy=1,
+                CreatedOn=DateTime.Now,
+                LastModifiedBy=1,
+                LastModifiedOn=DateTime.Now,
+                },
+                 new RegistrationViewModel
+                {
+
+                RoleId=3,
+                UserName="AdminUser",
+                Password = commonfunction.Encrypt(password),//dummy@123
+                FirstName = "AdminFirstname",
+                LastName = "AdminLastname",
+                GenderId = 1,
+                DateOfBirth = DateTime.Parse("1990-09-01"),
+                CellPhone = "9860085688",
+                EmailAddress = "Admin@gmail.com",
                 CanLogin=1,
-              
+                WhoAreYou="Doctor",
+                //ActivationCode = "1234567890",
                 IsActive=true,
                 IsDeleted=false,
                 CreatedBy=1,
@@ -125,7 +146,6 @@ namespace PhysicianLocator.DAL
             reg.ForEach(s => context.DBContext_register.Add(s));
             context.SaveChanges();
             //end
-
 
             var question = new List<QuestionViewModel>
             {
@@ -166,9 +186,7 @@ namespace PhysicianLocator.DAL
                 },
             };
             answer.ForEach(s => context.DBContext_answer.Add(s));
-          
-
-
+         
             //Address demo user delete when no need
             var address = new List<AddressViewModel>
             {
@@ -299,11 +317,11 @@ namespace PhysicianLocator.DAL
             var physicianeducation = new List<PhysicianEducationViewModel>
             {
                 new PhysicianEducationViewModel{
-                  UserId=1,CurrentEducationInstituteId=1, Degree="MBBS",StartDate=DateTime.Now,EndDate=DateTime.Now,OldEducationInstituteId=1,IsDeleted=false,CreatedBy=1, CreatedOn=DateTime.Now, LastModifiedBy=1,LastModifiedOn=DateTime.Now,IsActive=true,
+                  UserId=1,CurrentEducationInstituteId=1, Degree="MBBS",StartDate=DateTime.Now,OldEducationInstituteId=1,IsDeleted=false,CreatedBy=1, CreatedOn=DateTime.Now, LastModifiedBy=1,LastModifiedOn=DateTime.Now,IsActive=true,
 
                 },
                  new PhysicianEducationViewModel{
-                  UserId=2,CurrentEducationInstituteId=2, Degree="MBBS",StartDate=DateTime.Now,EndDate=DateTime.Now,OldEducationInstituteId=2,IsDeleted=false,CreatedBy=1, CreatedOn=DateTime.Now, LastModifiedBy=1,LastModifiedOn=DateTime.Now,IsActive=true,
+                  UserId=2,CurrentEducationInstituteId=2, Degree="MBBS",StartDate=DateTime.Now,OldEducationInstituteId=2,IsDeleted=false,CreatedBy=1, CreatedOn=DateTime.Now, LastModifiedBy=1,LastModifiedOn=DateTime.Now,IsActive=true,
 
                 },
 
