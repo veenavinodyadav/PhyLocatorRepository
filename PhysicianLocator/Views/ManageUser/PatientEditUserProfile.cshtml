@@ -65,7 +65,7 @@
                             @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div id ="example"class="form-group">
                         @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2 required" })
                         <div class="col-md-10">
                             @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
@@ -73,8 +73,7 @@
                                           .Value(Model.DateOfBirth)
                                           .Name("kendoDOB")
                                           .HtmlAttributes(new { style = "width: 280px" })
-                                          .Max("1/1/1994")
-                                          .Min("1/1/1957")
+                                         .Footer(false)
                                           .Format("dd-MM-yyyy")
                                           .Events(e => e
                                           .Open(@<text>
@@ -109,7 +108,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="col-md-offset-2" style="margin-left: 73.666667%; ">
                         <input type="submit" value="Update" class="btn btn-default" />
-                        @Html.ActionLink("Go back to profile", "ViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
+                        @Html.ActionLink("Go back to profile", "PatientViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
                     </div>
 
                 </div>
@@ -170,20 +169,18 @@
 
                             @(Html.Kendo().DropDownListFor(model => model.AddressViewModel1.CountryId)
 .Name("kendoCountry")
-  .DataTextField("CountryName")
+.DataTextField("CountryName")
 .DataValueField("ID")
 //.Filter("contains")
 //.Value(Model.CountryName1)
 .HtmlAttributes(new { style = "width: 280px" })
-
-//.OptionLabel("Select country...")
+.OptionLabel("Select Country......")
 .DataSource(source => source
 .Custom()
 .Transport(transport => transport
 .Read(read =>
 {
     read.Action("CountryDropDown", "AccountManagment");
-
 })
 ).ServerFiltering(true)
 )
@@ -257,6 +254,8 @@
                             @Html.ValidationMessageFor(model => model.AddressViewModel2.CountryId, "", new { @class = "text-danger" })
                             @(Html.Kendo().DropDownListFor(model => model.AddressViewModel1.CountryId)
 .Name("kendoCountry2")
+.HtmlAttributes(new { placeholder = "Date of Birth", required = "required", validationmessage = "Enter valid date of birth", style = "width:280px" })
+.OptionLabel("Select Country......")
 .DataTextField("CountryName")
 .DataValueField("ID")
 //.Filter("contains")
@@ -296,7 +295,7 @@
                 </div>
                 <div class="col-md-offset-2" style="margin-left: 80.666667%; ">
                     <input type="submit" value="Update" class="btn btn-default" />
-                    @Html.ActionLink("Go back to profile", "ViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
+                    @Html.ActionLink("Go back to profile", "PatientViewUserProfile", "ManageUser", new { @Id = Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-info pull-right" })
 
 
                 </div>
@@ -377,198 +376,56 @@
         }
 
         $(document).ready(function () {
-            var oTable = $('#myDatatable').DataTable({
-                "bPaginate": false,
-                "bLengthChange": false,
-                "bFilter": true,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "ajax": {
-                    "url": '/ManageUser/GetEducationlist',
-                    "type" : "get",
-                    "datatype" : "json"
-                },
-                "columns": [
-                    { "data": "InstituteName", "autoWidth": true },
-                    { "data": "Degree", "autoWidth": true },
-                        {
-                             "data": "StartDate", type: 'date-dd-mmm-yyyy', targets: 0, "render": function (data) {
 
-                             var d = new Date(parseInt(data.substr(6)));
-                             var result = "";
-                             return (+ d.getUTCMonth() + '-' + d.getUTCDay() + '-' + d.getFullYear() );
-                         }
-                     },
+            $("#kendoDOB").kendoDatePicker(
+                 {
+                     footer: false,
 
-                    {
-                        "data": "EduId", "width": "50px", "render": function (data) {
-                            return '<a class="popup" href="/ManageUser/Edit_education/' + data + '">Edit</a>';
+                     format: "dd-MM-yyyy",
+                     //parseFormats: ["MM/dd/yyyy"]
+                 }
+                 );
 
-                        }
-                    },
-                    {
-                        "data": "EduId", "width": "50px", "render": function (data) {
-                            return '<a class="popup" href="/ManageUser/Delete_education/' + data + '">Delete</a>';
-                            //return '<a class="delete" href="javascript:void(0)" onClick="deleteEdu('+data+')">Delete</a>';
-                        }
+            $("#kendoDOB").bind("focus", function () {
+                $(this).data("kendoDatePicker").open();
+            });
+
+        });
+        $("#example").kendoValidator({
+            rules: {
+                dateValidation: function (element) {
+                    var value = $("#kendoDOB").val();
+
+                    var date = kendo.parseDate(value);
+                    var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'dd-MM-yyyy');
+                    //alert(kendoyear);
+                    if (!kendoyear) {
+                        return false;
                     }
-                ]
-            })
 
-
-
-            $('.tablecontainer').on('click', 'a.popup', function (e) {
-                e.preventDefault();
-                OpenPopup($(this).attr('href'));
-            })
-
-            function OpenPopup(pageUrl) {
-                var $pageContent = $('<div/>');
-                $pageContent.load(pageUrl, function () {
-                    $('#popupForm', $pageContent).removeData('validator');
-                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-                    $.validator.unobtrusive.parse('form');
-                });
-
-                $dialog = $('<div class="popupWindow" style="overflow:auto height:auto"></div>')
-                          .html($pageContent)
-                          .dialog({
-                              draggable : false,
-                              autoOpen : false,
-                              resizable : false,
-                              model : true,
-                              title:'Education',
-                              height : 550,
-                              width : 600,
-                              close: function () {
-                                  $dialog.dialog('destroy').remove();
-                              }
-                          })
-
-                $('.popupWindow').on('submit', '#popupForm', function (e) {
-                    var url = $('#popupForm')[0].action;
-                    $.ajax({
-                        type : "POST",
-                        url : url,
-                        data: $('#popupForm').serialize(),
-                        success: function (data) {
-                            if (data.status) {
-                                $dialog.dialog('close');
-                                oTable.ajax.reload();
-                            }
-                        }
-                    })
-
-                    e.preventDefault();
-                })
-
-                $dialog.dialog('open');
-            }
-        })
-
-    //start expereince jquery
-        $(document).ready(function () {
-            var oTable = $('#myDatatable_experience').DataTable({
-                "bPaginate": false,
-                "bLengthChange": false,
-                "bFilter": true,
-                "bInfo": false,
-                "bAutoWidth": false,
-                "ajax": {
-                    "url": '/ManageUser/GetExperiencelist',
-                    "type": "get",
-                    "datatype": "json"
+                    return true;
                 },
-                "columns": [
-                    { "data": "Designation", "autoWidth": true },
-                    { "data": "ReasonForLeaving", "autoWidth": true },
-                    {
-                        "data": "JoinStartDate", type: 'date-dd-mmm-yyyy', targets: 0, "render": function (data) {
+                minDate: function (element) {
+                    var value = $(element).val();
+                    var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'yyyy');
+                    //var date = kendo.parseDate(value)
+                    var current = new Date();
+                    var currentyear = current.getFullYear();
+                    //alert(currentyear);
 
-                            var d = new Date(parseInt(data.substr(6)));
-                            var result = "";
+                    if (currentyear < kendoyear) {
+                        //alert(currentyear);
 
-                            return (+d.getUTCMonth() + '-' + d.getUTCDay() + '-' + d.getFullYear());
-                        }
-                    },
-                    {
-                        "data": "JoinEndDate", type: 'date-dd-mmm-yyyy', targets: 0, "render": function (data) {
-
-                            var d = new Date(parseInt(data.substr(6)));
-                            var result = "";
-
-                            return (+d.getUTCMonth() + '-' + d.getUTCDay() + '-' + d.getFullYear());
-                        }
-                    },
-                    {
-                        "data": "ExpId", "width": "50px", "render": function (data) {
-                            return '<a class="popup" href="/ManageUser/Edit_experience/' + data + '">Edit</a>';
-                       }
-                    },
-                    {
-                        "data": "ExpId", "width": "50px", "render": function (data) {
-                            return '<a class="popup" href="/ManageUser/Delete_experience/' + data + '">Delete</a>';
-                       }
+                        return false;
                     }
-                ]
-            })
-
-            ////alert('#menu1');
-            ////$('.nav-tabs a[href="#menu1"]').click();
-            //$('.nav-tabs a').click(function () {
-            //    //$("#menu1").tab('show');
-            //    $('a[href="#menu1"]').tab('show');
-            //})
-
-            $('.tablecontainer1').on('click', 'a.popup', function (e) {
-                e.preventDefault();
-                OpenPopup($(this).attr('href'));
-            })
-            function OpenPopup(pageUrl) {
-                var $pageContent = $('<div/>');
-                $pageContent.load(pageUrl, function () {
-                    $('#popupForm', $pageContent).removeData('validator');
-                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-                    $.validator.unobtrusive.parse('form');
-
-                });
-
-                $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
-                          .html($pageContent)
-                          .dialog({
-                              draggable: false,
-                              autoOpen: false,
-                              resizable: false,
-                              model: true,
-                              title: 'Experience',
-                              height: 550,
-                              width: 600,
-                              close: function () {
-                                  $dialog.dialog('destroy').remove();
-                              }
-                          })
-
-                $('.popupWindow').on('submit', '#popupForm', function (e) {
-                    var url = $('#popupForm')[0].action;
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $('#popupForm').serialize(),
-                        success: function (data) {
-                            if (data.status) {
-                                $dialog.dialog('close');
-                                oTable.ajax.reload();
-                            }
-                        }
-                    })
-
-                    e.preventDefault();
-                })
-
-                $dialog.dialog('open');
+                    return true;
+                }
+            },
+            messages: {
+                dateValidation: "You must enter a date",
+                minDate: "The date should not be in future"
             }
-        })
-    //end expereince jquery
+        });
 
         //start Health jquery
         $(document).ready(function () {

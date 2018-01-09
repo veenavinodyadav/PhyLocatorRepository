@@ -151,7 +151,6 @@ namespace PhysicianLocator.Controllers
 
             return View();
         }
-  
         public ActionResult Health_Read(int? id)
         {
             DataSourceRequest request = new DataSourceRequest();
@@ -205,7 +204,6 @@ namespace PhysicianLocator.Controllers
                 return Json(result);
             }
         }
-    
         public ActionResult Edit_experience([DataSourceRequest]DataSourceRequest request, ExperienceGridModel experiencegridmodel)
         {
             LocatorContext context = new LocatorContext();
@@ -296,7 +294,6 @@ namespace PhysicianLocator.Controllers
             }
             return Json(healthgridmodel);
         }
-      
         public ActionResult Delete_experience([DataSourceRequest]DataSourceRequest request, ExperienceGridModel model)
         {
             LocatorContext context = new LocatorContext();

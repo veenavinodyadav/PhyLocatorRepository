@@ -168,8 +168,7 @@ namespace PhysicianLocator.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
 
         }
-
-
+        
         //public JsonResult Edit_hospital(int HospitalId, string HospitalName)
         //{
         //    LocatorContext context = new LocatorContext();
@@ -223,20 +222,6 @@ namespace PhysicianLocator.Controllers
             //string message = "Success";
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult GetHospitallist()
-        //{
-        //    LocatorContext context = new LocatorContext();
-        //    var employees = context.DBContext_hospital.Where(u => u.IsActive).ToList();
-        //    return Json(new { data = employees }, JsonRequestBehavior.AllowGet);
-
-        //}
-        //public ActionResult GetHospitallist()
-        //{
-        //    LocatorContext context = new LocatorContext();
-        //    var employees = context.DBContext_hospital.Where(u => u.IsActive).ToList();
-        //    return Json(new { data = employees }, JsonRequestBehavior.AllowGet);
-
-        //}
-
+      
     }
 }

@@ -29,7 +29,7 @@ namespace PhysicianLocator.Controllers
             DocumentViewModel query_document = (from document in context.DBContext_document
                                                 where document.CreatedBy == userid && document.PrimaryObjectId == "tblUsers"
                                                 select document).FirstOrDefault();
-            RegistrationViewModel query_registration = (from register in context.DBContext_register where register.UserId == userid select register).SingleOrDefault();
+            RegistrationViewModel query_registration = (from register in context.DBContext_register where register.UserId == id select register).SingleOrDefault();
             if (query_registration != null)
             {
                 model.FirstName = query_registration.FirstName;
@@ -107,7 +107,6 @@ namespace PhysicianLocator.Controllers
                                                 select document).SingleOrDefault();
             if (query_registration != null)
             {
-
                 query_registration.FirstName = model.FirstName;
                 query_registration.LastName = model.LastName;
                 query_registration.CellPhone = model.CellPhone;
@@ -209,9 +208,7 @@ namespace PhysicianLocator.Controllers
                 var latitude1 = point1.Latitude;
                 var longitude1 = point1.Longitude;
                 model.AddressViewModel1.latitute = Convert.ToString(latitude1);
-                model.AddressViewModel1.longitute = Convert.ToString(longitude1);
-
-                
+                model.AddressViewModel1.longitute = Convert.ToString(longitude1);              
 
                 var tempCountry = Request["kendoCountry"];
                 model.AddressViewModel1.CountryId = Convert.ToInt32(tempCountry);
@@ -388,7 +385,7 @@ namespace PhysicianLocator.Controllers
             DocumentViewModel query_document = (from document in context.DBContext_document
                                                 where document.CreatedBy == userid && document.PrimaryObjectId == "tblUsers"
                                                 select document).FirstOrDefault();
-            RegistrationViewModel query_registration = (from register in context.DBContext_register where register.UserId == userid select register).SingleOrDefault();
+            RegistrationViewModel query_registration = (from register in context.DBContext_register where register.UserId == id select register).SingleOrDefault();
             if (query_registration != null)
             {
                 model.FirstName = query_registration.FirstName;
@@ -453,7 +450,6 @@ namespace PhysicianLocator.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult PatientEditUserProfile(int id, AdminUserRegViewModel model, HttpPostedFileBase uploadFile)
         {
-
             model.AdminId = id;
 
             var tempDob = Request["kendoDOB"];
@@ -470,7 +466,6 @@ namespace PhysicianLocator.Controllers
 
             if (query_registration != null)
             {
-
                 query_registration.FirstName = model.FirstName;
                 query_registration.LastName = model.LastName;
                 query_registration.CellPhone = model.CellPhone;
@@ -484,8 +479,6 @@ namespace PhysicianLocator.Controllers
 
                 if (Request.Files.Count > 0)
                 {
-
-
                     if (uploadFile != null && uploadFile.ContentLength > 0)
                     {
                         var delete_document = context.DBContext_document.Where(u => u.PrimaryObjectId == "tblUsers" && u.CreatedBy == value);

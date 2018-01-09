@@ -74,8 +74,12 @@
         </div>
         <br />
         <div class="">
-            <div class="">
-                <input type="submit" value="Submit" class="btn" /> @Html.ActionLink("list of question", "index", "QuestionAnswer", new { @class = "btn pull-right" })
+           
+
+            <div class="col-md-offset-2" style="margin-left: 73.666667%; ">
+                
+                <input type="submit" value="Submit" class="btn" /> @Html.ActionLink("List of question", "index", "QuestionAnswer", new { @class = "btn" })
+                @Html.ActionLink("Cancel", "index", "QuestionAnswer", new { @class = " btn " })
             </div>
         </div>
     </div>

@@ -256,7 +256,6 @@ namespace PhysicianLocator.Controllers
         {
           
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
        
@@ -266,12 +265,10 @@ namespace PhysicianLocator.Controllers
 
             return View();
         }
-
         public ActionResult map()
         {
             return View();
         }
-
         public ActionResult FirstPage()
         {
             ViewBag.Message = "Your application description page.";

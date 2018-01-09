@@ -32,7 +32,7 @@
                         <a class="btn navbar-btn pull-right" style="margin-left: 5px;" href="#" data-toggle="dropdown"> Manage<b></b> <span class="caret"></span></a>
                         <ul class="dropdown-menu realign">
                             <li>@Html.ActionLink("Users", "Index", "GridUser")</li>
-                            <li>@Html.ActionLink("Hospitals", "About", "Home")</li>
+                            <li>@Html.ActionLink("Hospitals", "ManageHospital", "Hospital")</li>
                             <li>@Html.ActionLink("Email Template", "Index", "ManageEmail")</li>
                             <li>@Html.ActionLink("Merge Institute", "MergeInstitute", "Administrator")</li>
                             <li>@Html.ActionLink("Demerge Institute", "DemergeInstitute", "Administrator")</li>
@@ -64,6 +64,7 @@
                                             Ask Question
                                         </a>
                                     }}
+
                             </div>
                             @*<div class="navbar-header pull-right position-relative">
                                 <a class="btn navbar-btn pull-right" style="margin-left: 5px;" href="#" data-toggle="dropdown"> Manage<b></b> <span class="caret"></span></a>

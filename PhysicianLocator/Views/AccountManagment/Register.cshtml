@@ -101,9 +101,7 @@
                                                                                }, "--- Select ---", new { onchange = "ExperienceFunction()" })
                         @Html.LabelFor(model => model.GenderId, htmlAttributes: new { @class = "required", @id = "experience-value" })
                     </div>
-
-                   
-
+                 
                     <div>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
@@ -151,21 +149,6 @@
             $(this).data("kendoDatePicker").open();
         });
 
-       
-        //var validator = $("#example").kendoValidator({
-        //    rules: {
-        //        datepicker: function (input) {
-        //            if (input.is("[data-role=datepicker]")) {
-        //                return input.data("kendoDatePicker").value();
-        //            } else {
-        //                return true;
-        //            }
-        //        }
-        //    },
-        //    messages: {
-        //        datepicker: "Please enter valid date!"
-        //    }
-        //}).data("kendoValidator");
     });
     $("#example").kendoValidator({
         rules: {
@@ -181,75 +164,28 @@
 
                 return true;
             },
-            //minDate: function (element) {
-            //    var value = $(element).val();
-            //    var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'yyyy');
-            //    //var date = kendo.parseDate(value)
-            //    var current = new Date();             
-            //    var currentyear = current.getFullYear();
-            //    //alert(currentyear);
-            //    var calculatedyaer = currentyear - kendoyear;           
-            //    if (calculatedyaer <= 21) {
-            //        //alert(calculatedyaer);
+            minDate: function (element) {
+                var value = $(element).val();
+                var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'yyyy');
+                //var date = kendo.parseDate(value)
+                var current = new Date();             
+                var currentyear = current.getFullYear();
+                //alert(currentyear);
+                   
+                if (currentyear < kendoyear) {
+                    //alert(currentyear);
 
-            //        return false;
-            //    }
-            //    return true;
-            //}
+                    return false;
+                }
+                return true;
+            }
         },
         messages: {
             dateValidation: "You must enter a date",
-            //minDate: "The age should be greater than 21"
+            minDate: "The date should not be in future"
         }
     });
    
-    //$(function () {
-       
-    //    $("form").kendoValidator({
-          
-    //        rules: {
-    //            'kendoDOB': function (input) {
-    //                    var date = $("#kendoDOB").val()
-    //                    if (date != "") {
-                          
-    //                        var current = new Date();
-    //                        var kendoyear = kendo.toString($("#kendoDOB").data("kendoDatePicker").value(), 'yyyy');
-    //                        var currentyear = current.getFullYear();
-    //                        var calculatedyaer = currentyear - kendoyear;
-    //                        if (calculatedyaer <= 18) {
-    //                            //alert(calculatedyaer);
-    //                            return false;
-    //                        }                                             
-    //                  }
-                  
-    //                return true;
-    //            }
-    //        },
-    //        messages: {
-    //            'kendoDOB': function (input) {
-    //                required: "Degree is mandatory!"
-    //                //if (date != "") {
-    //                //alert("ddddddd");
-    //                return input.attr("ggggggg");
-    //                    //}
-    //            }
-    //        //messages: {
-
-    //        //    'kendoDOB': {
-
-    //        //        required: "Degree is mandatory!",
-
-    //        //        pattern: "Please enter letter and special characters like DOT, Single Quote and Space!",
-                    
-    //        //    }
-
-            
-    //    }
-
-    //    });
-    //});
-
-  
 
     if (window.location.href === "http://localhost:30578/AccountManagment/Register") {
         $("body").addClass("bg-login");

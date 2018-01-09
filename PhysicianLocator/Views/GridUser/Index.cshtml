@@ -1,5 +1,4 @@
 ﻿
-
 <h3>List of all the users </h3>
 <br />
 @(Html.Kendo().Grid<PhysicianLocator.Models.AdminUserRegViewModel>()
@@ -12,9 +11,9 @@
           columns.Bound(c => c.CellPhone).Title("Cell Phone").HeaderHtmlAttributes(new { style = "font-size: 12pt; font-weight: bold;" });
           columns.Bound(c => c.DateOfBirth).Title("DOB").HeaderHtmlAttributes(new { style = "font-size: 12pt; font-weight: bold;" });
           columns.Bound(c => c.WhoAreYou).Title("Role").HeaderHtmlAttributes(new { style = "font-size: 12pt; font-weight: bold;" });
-
+          columns.Bound(p => p.AdminId).Title("Action");
           columns.Bound(p => p.AdminId).Title("Action").ClientTemplate
-          ("#if(WhoAreYou=='Doctor'){#" +
+           ("#if(WhoAreYou=='Doctor'){#" +
            "<a href='" + Url.Action("EditUserProfile", "ManageUser") + "/#=AdminId#'>Edit</a>" +" "+
            "<a href='" + Url.Action("ViewUserProfile", "ManageUser") + "/#=AdminId#'>View</a>"+
            "#}else{#" +
@@ -28,48 +27,50 @@
           //"#}else{#" +
           //"<a href='" + Url.Action("PatientViewUserProfile", "ManageUser") + "/#=AdminId#'>View</a>" +
           //"#}#");
-
-
       })
-
       .ColumnMenu()
       .Editable(ed => ed.Mode(GridEditMode.PopUp).TemplateName("RegisterViewModel"))
       .Pageable(builder => builder.PageSizes(new[] { 2, 5, 10 }))
       .Sortable(sortable =>
       {
           sortable.SortMode(GridSortMode.MultipleColumn);
-      })
-
-        //.Filterable()
+      })       
         .ToolBar(toolbar =>
         {
             toolbar.Template(@<text>
         <div class="toolbar">
             <div class="row">
+                
+                <div class="col-md-6">
+                   
+                     <input type="checkbox" id="chkDoctor" name="chkDoctor">Doctor Only
+                     <input type="checkbox" id="chkPatient" name="chkPatient">Patient Only
+                                  
+                       </div>
+               
                 <div class="col-md-4" style="float:right;">
+                 
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
                         <input type="text" class="form-control" id='FieldFilter' placeholder="Search for...">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
                         </span>
                     </div>
                 </div>
             </div>
+
         </div>
+
             </text>);
         })
       .Scrollable()
-    
       .DataSource(dataSource => dataSource
           .Ajax()
              .Model(model => model.Id(p => p.AdminId))
-             .Read(read => read.Action("UserRegistration_Read", "GridUser"))
-             
+             .Read(read => read.Action("UserRegistration_Read", "GridUser"))     
       )
 )
-
-
 <script>
     $(document).ready(function () {
         $("#FieldFilter").keyup(function () {
@@ -82,14 +83,84 @@
                 orfilter.filters.push({ field: "FirstName", operator: "contains", value: value },
                                       { field: "LastName", operator: "contains", value: value },
                                       { field: "EmailAddress", operator: "contains", value: value },
-                                      { field: "CellPhone", operator: "contains", value: value }
+                                      { field: "CellPhone", operator: "contains", value: value },
+                                      { field: "WhoAreYou", operator: "contains", value: value }
                                       //{ field: "DateOfBirth", operator: "contains", value: value }
                                       );
                 grid.dataSource.filter(orfilter);
             } else {
                 grid.dataSource.filter({});
             }
-
+        });                   
+        $("#chkDoctor").change(function () {
+            $('#chkPatient').attr('checked', false); // Unchecks it
+          
+            if (this.checked) {
+                var value ="Doctor";
+                grid = $("#grid").data("kendoGrid");
+                var orfilter = { logic: "or", filters: [] };
+                if (value) {
+                    orfilter.filters.push({ field: "FirstName", operator: "contains", value: value },
+                                          { field: "LastName", operator: "contains", value: value },
+                                          { field: "EmailAddress", operator: "contains", value: value },
+                                          { field: "CellPhone", operator: "contains", value: value },
+                                          { field: "WhoAreYou", operator: "contains", value: value }
+                                          );
+                    grid.dataSource.filter(orfilter);
+                } else {
+                    grid.dataSource.filter({});
+                }
+            }
+            else
+            {     
+                grid = $("#grid").data("kendoGrid");
+                var orfilter = { logic: "or", filters: [] };
+                if (value) {
+                    orfilter.filters.push({ field: "FirstName", operator: "contains", value: value },
+                                          { field: "LastName", operator: "contains", value: value },
+                                          { field: "EmailAddress", operator: "contains", value: value },
+                                          { field: "CellPhone", operator: "contains", value: value },
+                                          { field: "WhoAreYou", operator: "contains", value: value }
+                                          );
+                    grid.dataSource.filter(orfilter);
+                } else {
+                    grid.dataSource.filter({});
+                }
+            }
+        });
+        $("#chkPatient").change(function () {
+            $('#chkDoctor').attr('checked', false); // Unchecks it          
+            if (this.checked) {
+                var value = "Patient";
+                grid = $("#grid").data("kendoGrid");
+                var orfilter = { logic: "or", filters: [] };
+                if (value) {
+                    orfilter.filters.push({ field: "FirstName", operator: "contains", value: value },
+                                          { field: "LastName", operator: "contains", value: value },
+                                          { field: "EmailAddress", operator: "contains", value: value },
+                                          { field: "CellPhone", operator: "contains", value: value },
+                                          { field: "WhoAreYou", operator: "contains", value: value }
+                                          );
+                    grid.dataSource.filter(orfilter);
+                } else {
+                    grid.dataSource.filter({});
+                }
+            }
+            else {
+                grid = $("#grid").data("kendoGrid");
+                var orfilter = { logic: "or", filters: [] };
+                if (value) {
+                    orfilter.filters.push({ field: "FirstName", operator: "contains", value: value },
+                                          { field: "LastName", operator: "contains", value: value },
+                                          { field: "EmailAddress", operator: "contains", value: value },
+                                          { field: "CellPhone", operator: "contains", value: value },
+                                          { field: "WhoAreYou", operator: "contains", value: value }
+                                          );
+                    grid.dataSource.filter(orfilter);
+                } else {
+                    grid.dataSource.filter({});
+                }
+            }
         });
     });
 </script>

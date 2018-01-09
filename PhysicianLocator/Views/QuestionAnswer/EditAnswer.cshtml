@@ -3,7 +3,7 @@
 <h2>Edit Answer</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(@*"QuestionAndAnswer", "QuestionAnswer",new {id=1 }*@))
 {
     @Html.AntiForgeryToken()
 
@@ -17,18 +17,18 @@
       
 
         @(Html.Kendo().Editor()
-        .Name("editor")
-        .HtmlAttributes(new { style = "height:40px" })
-        .Resizable(resizable => resizable.Content(true))
-        .Tools(tools => tools
-               .Clear()
-               .Bold().Italic().Underline().Strikethrough()
-               .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
-               .CreateLink().Unlink()
-               //.InsertImage()
-               //.TableEditing()
-               .FontColor().BackColor())
-               .Value(@<text>
+    .Name("editor")
+    .HtmlAttributes(new { style = "height:40px" })
+    .Resizable(resizable => resizable.Content(true))
+    .Tools(tools => tools
+           .Clear()
+           .Bold().Italic().Underline().Strikethrough()
+           .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+           .CreateLink().Unlink()
+           //.InsertImage()
+           //.TableEditing()
+           .FontColor().BackColor())
+           .Value(@<text>
                 @foreach (var e in ViewBag.Answer)
                 {
 
@@ -50,42 +50,50 @@
 
         <div @*class="demo-section k-content"*@>
             @(Html.Kendo().Upload()
-              .Name("files")
-              .TemplateId("fileTemplate")
-              .Async(a => a
-              .Save("SaveAndPersist", "QuestionAnswer")
-              .Remove("RemoveAndPersist", "QuestionAnswer")
-              .AutoUpload(false))
-                //.Files(files =>
-                //{
-                //    foreach (var f in Model)
-                //    {
-                //        files.Add().Name(f.Name).Extension(f.Extension).Size(f.Size);
-                //    }
-                //})
-                .ShowFileList(true)
-                .Events(e => e.Success("onSuccess")
-                .Cancel("onCancel")
-                .Clear("onClear")
-                //.Complete("onComplete")
-                //.Error("onError")
-                //.Progress("onProgress")
-                //.Remove("onRemove")
-                //.Select("onSelect")
-                //.Upload("onUpload")
-                )
-             //.DropZone(".dropZoneElement")
-             .Validation(validation =>
-             {
-                 validation.AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" });
-                 validation.MinFileSize(500);
-             })
+      .Name("files")
+      .TemplateId("fileTemplate")
+      .Async(a => a
+      .Save("SaveAndPersist", "QuestionAnswer")
+      .Remove("RemoveAndPersist", "QuestionAnswer")
+      .AutoUpload(false))
+        //.Files(files =>
+        //{
+        //    foreach (var f in Model)
+        //    {
+        //        files.Add().Name(f.Name).Extension(f.Extension).Size(f.Size);
+        //    }
+        //})
+        .ShowFileList(true)
+        .Events(e => e.Success("onSuccess")
+        .Cancel("onCancel")
+        .Clear("onClear")
+        //.Complete("onComplete")
+        //.Error("onError")
+        //.Progress("onProgress")
+        //.Remove("onRemove")
+        //.Select("onSelect")
+        //.Upload("onUpload")
+        )
+     //.DropZone(".dropZoneElement")
+     .Validation(validation =>
+     {
+         validation.AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" });
+         validation.MinFileSize(500);
+     })
             )
         </div>
         <br />
         <div>
             <div class="">
+               @foreach (var e in ViewBag.Answer)
+               {
+
+                   int id = (int)e.QuestionAnswerId;
                 <input type="submit" value="Submit" class="btn" />@Html.ActionLink("list of question", "index", "QuestionAnswer", new { @class = "btn pull-right" })
+                @*@Html.ActionLink("Cancel", "QuestionAndAnswer", "QuestionAnswer", new { @class = "btn pull-right", id = id })*@
+               }
+                
+
             </div>
         </div>
     </div>

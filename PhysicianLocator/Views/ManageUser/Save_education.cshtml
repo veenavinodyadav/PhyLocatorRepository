@@ -58,16 +58,16 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-4 required" })
-            <div class="col-md-8">
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            <div id="example" class="col-md-8">
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" , })
 
                 @(Html.Kendo().DatePicker()
                   .Name("kendoStartDate")
-                  .HtmlAttributes(new { placeholder = "Year of Passing", required = "required", validationmessage = "Please pick Year of passing", style = "width:280px" })
+                  .HtmlAttributes(new { placeholder = "Year of Passing", required = "required", validationmessage = "Please pick valid Year of passing", style = "width:280px" })
                   .Start(CalendarView.Decade)
                   .Depth(CalendarView.Decade)
+                  .Max("01-01-2018")
                   .Footer(false)
-                       
                   .Format("yyyy")
                   .Events(e => e
                   .Open(@<text>
@@ -84,8 +84,6 @@
                         }
                 </text>)
                  ))
-
-
             </div>
         </div>
 
@@ -107,8 +105,46 @@
                 $("#kendoStartDate").bind("focus", function () {
                     $(this).data("kendoDatePicker").open();
                 });
+            
             });
 
+            $("#kendoStartDate").kendoValidator({
+                rules: {
+                    dateValidation: function (element) {
+                        var value = $("#kendoStartDate").val();
+                        
+                        var date = kendo.parseDate(value);
+                        var kendoyear = kendo.toString($("#kendoStartDate").data("kendoDatePicker").value(), 'yyyy');
+                        
+                        if (!kendoyear) {
+                            alert(kendoyear);
+                            return false;
+                        }
+
+                        return true;
+                    },
+                    minDate: function (element) {
+                        var value = $(element).val();
+                        var kendoyear = kendo.toString($("#kendoStartDate").data("kendoDatePicker").value(), 'yyyy');
+                        //var date = kendo.parseDate(value)
+                        var current = new Date();
+                        var currentyear = current.getFullYear();
+                        //alert(currentyear);
+
+                        if (currentyear < kendoyear) {
+                            //alert(currentyear);
+
+                            return false;
+                        }
+                        return true;
+                    }
+                },
+                messages: {
+                    dateValidation: "You must enter a date",
+                    minDate: "The date should not be in future"
+                }
+            });
+        
             $(function () {
                 $("form").kendoValidator();
             });
